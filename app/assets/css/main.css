@@ -1,1 +1,36 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@keyframes wiggle {
+    0%,
+    9% {
+        transform: rotate(0deg);
+    }
+
+    14% {
+        transform: rotate(-8deg);
+    }
+
+    19% {
+        transform: rotate(8deg);
+    }
+
+    24% {
+        transform: rotate(-5deg);
+    }
+
+    29% {
+        transform: rotate(5deg);
+    }
+
+    39% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@theme {
+    --animate-wiggle: wiggle 1.65s ease-in-out infinite;
+}
