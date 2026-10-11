@@ -10,11 +10,16 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@iconify-vue/tabler": "^1.0.18",
     "@tailwindcss/vite": "^4.3.3",
     "gooey-toast-vue": "^0.3.1",
-    "nuxt": "^4.6.0",
+    "nuxt": "^4.6.1",
     "tailwindcss": "^4.3.3",
     "vue": "^3.5.43",
     "vue-router": "^5.3.1"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10",
+    "prettier-plugin-tailwindcss": "^0.8.1"
   }
 }
