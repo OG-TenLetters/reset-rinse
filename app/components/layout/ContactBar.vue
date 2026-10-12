@@ -5,7 +5,7 @@ import PhoneIcon from '@iconify-vue/tabler/phone'
 
 <template>
     <div
-        class="flex w-full items-center justify-between rounded-b-lg bg-violet-900 px-4 py-2 text-xs font-semibold text-white inset-shadow-2xs inset-shadow-indigo-900 sm:text-sm sm:text-[1rem] md:rounded-b-xl md:p-4 md:text-lg"
+        class="flex w-full items-center justify-between rounded-b-lg bg-violet-900 px-4 py-2 text-xs font-semibold text-white inset-shadow-2xs inset-shadow-indigo-900"
     >
         <div class="flex items-center justify-between gap-x-2 sm:gap-x-6">
             <a
