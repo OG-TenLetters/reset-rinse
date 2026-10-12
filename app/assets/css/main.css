@@ -33,4 +33,5 @@
 
 @theme {
     --animate-wiggle: wiggle 1.65s ease-in-out infinite;
+    --breakpoint-xs: 30rem;
 }
