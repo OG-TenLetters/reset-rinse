@@ -1,11 +1,6 @@
 "
 <script setup lang="ts">
 import YelpIcon from '../icons/Yelp.vue'
-import FacebookIcon from '@iconify-vue/tabler/brand-facebook-filled'
-import GoogleIcon from '@iconify-vue/tabler/brand-google-filled'
-import InstagramIcon from '@iconify-vue/tabler/brand-instagram-filled'
-import AppleIcon from '@iconify-vue/tabler/apple-filled'
-import LinkedInIcon from '@iconify-vue/tabler/brand-linkedin-filled'
 
 const socialLibary = {
     yelp: {
@@ -14,23 +9,23 @@ const socialLibary = {
     },
     facebook: {
         link: 'https://www.facebook.com/profile.php?id=61595179863028',
-        icon: FacebookIcon,
+        icon: 'tabler:brand-facebook-filled',
     },
     google: {
         link: 'https://share.google/lGP0JerVgcsdMfxXZ',
-        icon: GoogleIcon,
+        icon: 'tabler:brand-google-filled',
     },
     instagram: {
         link: 'https://www.instagram.com/resetrinse/',
-        icon: InstagramIcon,
+        icon: 'tabler:brand-instagram-filled',
     },
     apple: {
         link: 'Pending',
-        icon: AppleIcon,
+        icon: 'tabler:brand-apple-filled',
     },
     linkedIn: {
         link: 'https://www.linkedin.com/in/jadon-smith-6143b9334',
-        icon: LinkedInIcon,
+        icon: 'tabler:brand-linkedin-filled',
     },
 }
 
@@ -42,8 +37,9 @@ const selectdSocial = socialLibary[props.social]
 </script>
 
 <template>
-    <a :href="selectdSocial.link" target="_blank"
-        ><component
+    <a :href="selectdSocial.link" target="_blank">
+        <UIcon name="tabler:mai" />
+        <component
             :is="selectdSocial.icon"
             class="size-6 rounded-full border-2 border-white bg-amber-600 p-1 text-amber-200 transition-colors duration-150 hover:border-green-400 hover:text-green-200"
     /></a>

@@ -1,14 +1,12 @@
-import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from '@tailwindcss/vite'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['gooey-toast-vue/nuxt'],
-  compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
-  css: ['~/assets/css/main.css'],
-  vite: {
-    plugins: [
-      tailwindcss(),
-    ]
-  },
+    modules: ['gooey-toast-vue/nuxt', '@nuxt/image', '@nuxt/ui'],
+    compatibilityDate: '2025-07-15',
+    devtools: { enabled: true },
+    css: ['~/assets/css/main.css'],
+    vite: {
+        plugins: [tailwindcss()],
+    },
 })

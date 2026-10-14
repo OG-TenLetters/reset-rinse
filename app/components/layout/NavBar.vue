@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import BrandStamp from '~/components/BrandStamp.vue'
-import rightArrowWallIcon from '@iconify-vue/tabler/arrow-bar-to-right'
-import quoteIcon from '@iconify-vue/tabler/quote-filled'
-import phoneIcon from '@iconify-vue/tabler/phone-call-filled'
 import { onClickOutside } from '@vueuse/core'
 import { serviceLinks } from '~/data/services'
 
@@ -74,7 +71,7 @@ onClickOutside(servicesMenu, () => {
                             ? 'pointer-events-auto scale-y-100'
                             : 'pointer-events-none scale-y-0'
                     "
-                    class="absolute flex origin-top flex-col text-xs font-semibold whitespace-nowrap transition-transform duration-300 sm:text-sm"
+                    class="absolute z-30 flex origin-top flex-col text-xs font-semibold whitespace-nowrap transition-transform duration-300 sm:text-sm"
                 >
                     <li
                         v-for="serviceLink in serviceLinks"
@@ -127,11 +124,9 @@ onClickOutside(servicesMenu, () => {
                 href="tel:+13605531160"
                 class="xs:py-3 xs:rounded-xl inline-flex gap-x-0.5 rounded-lg border-2 border-violet-900 bg-violet-400 px-1 py-2 text-violet-950 shadow-xs shadow-violet-900 transition-colors duration-300 hover:bg-transparent"
             >
-                <phoneIcon class="size-4" />
-
-                <rightArrowWallIcon class="xs:block hidden size-4" />
-
-                <quoteIcon class="xs:block hidden size-4" />
+                <UIcon class="size-4" name="tabler:phone-filled" />
+                <UIcon class="size-4" name="tabler:arrow-bar-to-right" />
+                <UIcon class="size-4" name="tabler:quote-filled" />
             </a>
         </div>
     </div>
