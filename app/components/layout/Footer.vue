@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import BrandStamp from '../BrandStamp.vue'
 import phoneIcon from '@iconify-vue/tabler/phone-filled'
 import mailIcon from '@iconify-vue/tabler/mail-filled'
 import { serviceLocations } from '~/data/location.ts'
 import { serviceLinks } from '~/data/services.ts'
+import BrandStamp from '../BrandStamp.vue'
 import SocialButton from '../buttons/SocialButton.vue'
 </script>
 
