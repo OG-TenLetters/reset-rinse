@@ -10,7 +10,7 @@ const items = [
         title: 'Window Cleaning',
         description: 'Exterior window cleaning in Vancouver, Washington.',
         location: 'Vancouver, WA',
-        service: '/window-cleaning',
+        internal_link: '/window-cleaning',
     },
     {
         images: [
@@ -22,7 +22,7 @@ const items = [
         title: 'Gutter Cleaning',
         description: 'Full gutter clearing and downspout flushing.',
         location: 'Battle Ground, WA',
-        service: '/gutter-cleaning',
+        internal_link: '/gutter-cleaning',
     },
     {
         images: [
@@ -34,7 +34,7 @@ const items = [
         title: 'Power/Soft Wash',
         description: 'Concrete and exterior surface cleaning.',
         location: 'Vancouver, WA',
-        service: '/pressure-washing',
+        internal_link: '/pressure-washing',
     },
     {
         images: [
@@ -47,7 +47,7 @@ const items = [
         description:
             'Safe treatment and removal of moss for the integrity of your roof',
         location: 'Vancouver, WA',
-        service: '/moss-treatment',
+        internal_link: '/moss-treatment',
     },
 ]
 
@@ -63,14 +63,14 @@ function onSelect(index: number) {
 </script>
 
 <template>
-    <div class="relative -mb-4 flex overflow-hidden bg-black md:max-h-160">
+    <div class="relative -mb-4 flex overflow-hidden bg-black md:h-160">
         <!-- CAROUSEL / IMAGES -->
         <UCarousel
-            v-slot="{ item }"
-            fade
-            :autoplay="{ delay: 12000 }"
+            v-slot="{ item, index }"
             :duration="300"
+            fade
             loop
+            :autoplay="{ delay: 6000 }"
             class="w-full"
             :items="items"
             @select="onSelect"
@@ -78,20 +78,47 @@ function onSelect(index: number) {
             <div class="relative w-full">
                 <NuxtImg
                     :src="item.images[0]"
-                    class="w-full mask-[linear-gradient(to_bottom,black_0%,black_calc(100%-120px),transparent_100%)] object-cover"
+                    width="1920"
+                    height="1080"
+                    format="webp"
+                    quality="85"
+                    :loading="index === 0 ? 'eager' : 'auto'"
+                    :fetchpriority="index === 0 ? 'high' : 'auto'"
+                    :preload="index === 0 ? { fetchPriority: 'high' } : false"
+                    class="aspect-video w-full mask-[linear-gradient(to_bottom,black_0%,black_calc(100%-120px),transparent_100%)] object-cover"
+                    :alt="`${item.title} service example`"
                 />
 
                 <NuxtImg
                     :src="item.images[1]"
-                    class="-mt-8 w-full mask-[linear-gradient(to_bottom,transparent_0%,black_120px,black_100%)] object-cover"
+                    width="1200"
+                    height="675"
+                    format="webp"
+                    quality="75"
+                    loading="lazy"
+                    class="-mt-8 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_120px,black_100%)] object-cover"
+                    :alt="`${item.title} service example`"
                 />
                 <!-- <NuxtImg
-                    :src="item.images[2]"
-                    class="-mt-8 w-full mask-[linear-gradient(to_bottom,transparent_0%,black_120px,black_100%)] object-cover sm:hidden"
+                    :src="item.images[3]"
+        
+                    width="1200"
+                    height="675"
+                    sizes="100vw"
+                    format="webp"
+                    quality="75"
+                    loading="lazy"
+                    class="-mt-8 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_120px,black_100%)] object-cover sm:hidden"
                 /> -->
                 <NuxtImg
-                    :src="item.images[2]"
-                    class="-mt-12 w-full mask-[linear-gradient(to_bottom,transparent_0%,black_96px,black_calc(100%-160px),transparent_100%)] object-cover sm:hidden"
+                    :src="item.images[3]"
+                    width="1200"
+                    height="675"
+                    format="webp"
+                    quality="75"
+                    loading="lazy"
+                    class="-mt-12 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_96px,black_calc(100%-160px),transparent_100%)] object-cover sm:hidden"
+                    :alt="`${item.title} service example`"
                 />
             </div>
             <div
@@ -118,7 +145,8 @@ function onSelect(index: number) {
 
                         <!-- Info Link -->
                         <a
-                            :href="activeItem.service"
+                            :href="activeItem.internal_link"
+                            :aria-label="`Learn more about ${activeItem.title}.`"
                             class="group flex h-5 w-5 rotate-45 items-center justify-center overflow-hidden rounded-sm border border-white/40 bg-violet-900/20 transition-colors duration-150 hover:border-green-500 hover:bg-violet-900"
                         >
                             <UIcon
@@ -182,7 +210,9 @@ function onSelect(index: number) {
             <div
                 class="z-1 flex max-h-100 w-9/10 flex-1 rounded-2xl md:absolute md:top-1/2 md:right-1/25 md:h-7/10 md:w-4/9 md:translate-x-0 md:-translate-y-1/3"
             >
-                <div class="h-full w-full rounded-2xl bg-gray-200 p-4">
+                <div
+                    class="h-full w-full rounded-2xl border-2 border-white/70 bg-gray-200/0 p-4 text-white/70"
+                >
                     <div
                         class="flex h-full items-center justify-center text-2xl font-semibold tracking-wide"
                     >

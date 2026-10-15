@@ -1,4 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+useHead({
+    htmlAttrs: {
+        lang: 'en',
+    },
+    title: 'Reset Rinse | Property Care in Vancouver, WA',
+    meta: [
+        {
+            name: 'description',
+            content:
+                'Window cleaning, gutter cleaning, pressure washing, and moss treatment in Vancouver, Washington and surrounding areas.',
+        },
+    ],
+})
+</script>
 
 <template>
     <div>

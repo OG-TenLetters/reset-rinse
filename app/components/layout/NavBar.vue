@@ -125,6 +125,7 @@ onClickOutside(servicesMenu, () => {
         <div class="block sm:hidden">
             <a
                 href="tel:+13605531160"
+                aria-label="Call Reset Rinse"
                 class="xs:py-3 xs:rounded-xl inline-flex gap-x-0.5 rounded-lg border-2 border-violet-900 bg-violet-400 px-1 py-2 text-violet-950 shadow-xs shadow-violet-900 transition-colors duration-300 hover:bg-transparent"
             >
                 <UIcon class="size-4" name="tabler:phone-filled" />
