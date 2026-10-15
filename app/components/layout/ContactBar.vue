@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import SocialButton from '~/components/buttons/SocialButton.vue'
-import PhoneIcon from '@iconify-vue/tabler/phone'
 </script>
 
 <template>
@@ -15,7 +14,8 @@ import PhoneIcon from '@iconify-vue/tabler/phone'
                 360.553.1160
             </a>
             <a href="tel: +13605531160">
-                <PhoneIcon
+                <UIcon
+                    name="tabler:phone-filled"
                     class="hover:animate-wiggle block size-6 rounded-full text-amber-500 transition-all duration-300 hover:text-green-400 md:hidden"
                 />
             </a>

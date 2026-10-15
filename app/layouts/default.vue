@@ -5,10 +5,12 @@ import NavBar from '~/components/layout/NavBar.vue'
 </script>
 
 <template>
-    <div>
+    <div
+        class="fixed z-100 w-full max-w-300 rounded-b-2xl shadow-md shadow-black/50"
+    >
         <ContactBar />
         <NavBar />
-        <slot />
-        <Footer />
     </div>
+    <slot />
+    <Footer />
 </template>

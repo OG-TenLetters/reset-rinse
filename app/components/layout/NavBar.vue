@@ -37,14 +37,15 @@ onClickOutside(servicesMenu, () => {
 </script>
 
 <template>
-    <div
-        class="xs:px-4 flex items-center justify-between bg-gray-200 px-2 py-1 md:px-10 md:py-3"
+    <nav
+        aria-label="Primary"
+        class="xs:px-4 flex items-center justify-between rounded-2xl bg-gray-200 py-1 pr-2 pl-0 md:px-10 md:py-3"
     >
         <BrandStamp class="xs:scale-75 scale-60 md:scale-100" />
 
         <!-- NavLinks -->
         <div
-            class="xs:text-sm xs:gap-x-2 xs:px-4 flex w-full justify-evenly gap-x-0.5 px-0 pr-1 text-xs font-semibold sm:w-fit sm:gap-x-5 sm:text-lg md:text-2xl md:font-normal"
+            class="xs:text-sm xs:gap-x-2 xs:px-4 flex w-full justify-evenly gap-x-0.5 pr-1 pl-0 text-xs font-semibold sm:w-fit sm:gap-x-5 sm:text-lg md:text-2xl md:font-normal"
         >
             <div
                 ref="servicesMenu"
@@ -66,6 +67,8 @@ onClickOutside(servicesMenu, () => {
 
                 <!-- Services Dropdown -->
                 <ul
+                    :inert="!servicesOpen"
+                    :aria-hidden="!servicesOpen"
                     :class="
                         servicesOpen
                             ? 'pointer-events-auto scale-y-100'
@@ -89,7 +92,7 @@ onClickOutside(servicesMenu, () => {
                 </ul>
             </div>
 
-            <div>|</div>
+            <div aria-hidden="true">|</div>
 
             <a
                 class="transition-colors duration-150 hover:text-amber-800"
@@ -97,7 +100,7 @@ onClickOutside(servicesMenu, () => {
                 >About Me</a
             >
 
-            <div>|</div>
+            <div aria-hidden="true">|</div>
 
             <div class="transition-colors duration-150 hover:text-amber-800">
                 Contact Me
@@ -125,9 +128,15 @@ onClickOutside(servicesMenu, () => {
                 class="xs:py-3 xs:rounded-xl inline-flex gap-x-0.5 rounded-lg border-2 border-violet-900 bg-violet-400 px-1 py-2 text-violet-950 shadow-xs shadow-violet-900 transition-colors duration-300 hover:bg-transparent"
             >
                 <UIcon class="size-4" name="tabler:phone-filled" />
-                <UIcon class="size-4" name="tabler:arrow-bar-to-right" />
-                <UIcon class="size-4" name="tabler:quote-filled" />
+                <UIcon
+                    class="xs:block hidden size-4"
+                    name="tabler:arrow-bar-to-right"
+                />
+                <UIcon
+                    class="xs:block hidden size-4"
+                    name="tabler:quote-filled"
+                />
             </a>
         </div>
-    </div>
+    </nav>
 </template>

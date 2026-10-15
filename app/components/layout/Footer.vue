@@ -7,7 +7,7 @@ import SocialButton from '../buttons/SocialButton.vue'
 
 <template>
     <div
-        class="p-6sm:rounded-t-3xl rounded-t-2xl border-t-2 border-t-amber-400 bg-amber-200 md:rounded-t-4xl md:p-10"
+        class="relative z-100 rounded-t-2xl border-t-2 border-t-amber-400 bg-amber-200 p-6 sm:rounded-t-3xl md:rounded-t-4xl md:p-10"
     >
         <div
             class="xs:text-[16px] -mt-4 mb-9 flex w-full flex-col items-center text-xs lg:hidden"
