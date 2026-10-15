@@ -31,9 +31,9 @@ import SocialButton from '../buttons/SocialButton.vue'
                 <SocialButton social="apple" />
                 <SocialButton social="linkedIn" />
             </div>
-            <h4 class="text-xs whitespace-nowrap sm:text-sm">
+            <h3 class="text-xs whitespace-nowrap sm:text-sm">
                 Copyright &copy; 2026 Reset Rinse, All rights reserved.
-            </h4>
+            </h3>
             <div class="flex gap-x-1 text-xs sm:text-sm">
                 <h4>Terms of Service</h4>
                 |
@@ -49,77 +49,85 @@ import SocialButton from '../buttons/SocialButton.vue'
             <div class="flex flex-col gap-y-6 sm:contents">
                 <!-- Get In Touch -->
                 <div
-                    class="xs:text-[16px] flex flex-col justify-self-start text-xs"
+                    class="xs:text-[16px] flex flex-col justify-self-start text-sm"
                 >
                     <h3
                         class="xs:font-bold xs:tracking-normal mb-2 font-extrabold tracking-wide sm:mb-4 md:mb-6"
                     >
                         Get In Touch
                     </h3>
+                    <div class="flex flex-col gap-y-2">
+                        <a
+                            href="tel:13605531160"
+                            aria-label="Call Reset Rinse"
+                            class="group flex items-center gap-x-1 font-semibold hover:text-amber-900 sm:gap-x-2"
+                        >
+                            <UIcon
+                                name="tabler:phone-filled"
+                                class="size-4 text-amber-600 group-hover:text-amber-500 sm:size-6"
+                            />
+                            (360) 553-1160
+                        </a>
 
-                    <a
-                        href="tel:13605531160"
-                        class="group flex items-center gap-x-1 font-semibold hover:text-amber-900 sm:gap-x-2"
-                    >
-                        <UIcon
-                            name="tabler:phone-filled"
-                            class="size-4 text-amber-600 group-hover:text-amber-500 sm:size-6"
-                        />
-                        (360) 553-1160
-                    </a>
-
-                    <a
-                        href="mailto:hello@resetrinse.com"
-                        class="group flex items-center gap-x-1 font-semibold hover:text-amber-900 sm:gap-x-2"
-                    >
-                        <UIcon
-                            name="tabler:mail-filled"
-                            class="size-4 text-amber-600 group-hover:text-amber-500 sm:size-6"
-                        />
-                        hello@resetrinse.com
-                    </a>
+                        <a
+                            aria-label="Email Reset Rinse"
+                            href="mailto:hello@resetrinse.com"
+                            class="group flex items-center gap-x-1 font-semibold hover:text-amber-900 sm:gap-x-2"
+                        >
+                            <UIcon
+                                name="tabler:mail-filled"
+                                class="size-4 text-amber-600 group-hover:text-amber-500 sm:size-6"
+                            />
+                            hello@resetrinse.com
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Services -->
-                <ul class="xs:text-[16px] text-xs">
+                <div class="xs:text-[16px] text-sm">
                     <h3
                         class="xs:font-bold xs:tracking-normal mb-2 font-extrabold tracking-wide sm:mb-4 md:mb-6"
                     >
                         Services
                     </h3>
 
-                    <li
-                        v-for="serviceLink in serviceLinks"
-                        :key="serviceLink.to"
-                        class="font-semibold transition-colors duration-150 hover:text-amber-900"
-                    >
-                        <NuxtLink :to="serviceLink.to">
-                            {{ serviceLink.name }}
-                        </NuxtLink>
-                    </li>
-                </ul>
+                    <ul class="flex flex-col gap-y-2">
+                        <li
+                            v-for="serviceLink in serviceLinks"
+                            :key="serviceLink.to"
+                            class="font-semibold transition-colors duration-150 hover:text-amber-900"
+                        >
+                            <NuxtLink :to="serviceLink.to">
+                                {{ serviceLink.name }}
+                            </NuxtLink>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <!-- Service Area -->
-            <ul class="xs:text-[16px] text-xs">
+            <div class="xs:text-[16px] text-sm">
                 <h3
                     class="xs:font-bold xs:tracking-normal mb-2 font-extrabold tracking-wide sm:mb-4 md:mb-6"
                 >
                     Service Area
                 </h3>
 
-                <li
-                    v-for="city in serviceLocations.states.washington.counties
-                        .clark.cities"
-                    :key="city.slug"
-                    class="font-semibold"
-                >
-                    {{ city.name }},
-                    {{
-                        serviceLocations.states.washington.counties.clark.state
-                    }}
-                </li>
-            </ul>
+                <ul class="flex flex-col gap-y-2">
+                    <li
+                        v-for="city in serviceLocations.states.washington
+                            .counties.clark.cities"
+                        :key="city.slug"
+                        class="font-semibold"
+                    >
+                        {{ city.name }},
+                        {{
+                            serviceLocations.states.washington.counties.clark
+                                .state
+                        }}
+                    </li>
+                </ul>
+            </div>
             <!-- Brand Info -->
             <div
                 class="-mt-4 hidden max-w-80 flex-col items-end text-sm lg:flex"
@@ -138,9 +146,9 @@ import SocialButton from '../buttons/SocialButton.vue'
                     <SocialButton social="apple" />
                     <SocialButton social="linkedIn" />
                 </div>
-                <h4 class="whitespace-nowrap">
+                <h3 class="whitespace-nowrap">
                     Copyright &copy; 2026 Reset Rinse, All rights reserved.
-                </h4>
+                </h3>
                 <div class="flex gap-x-1">
                     <h4>Terms of Service</h4>
                     |

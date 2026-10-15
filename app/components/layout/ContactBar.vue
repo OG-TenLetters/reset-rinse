@@ -9,11 +9,12 @@ import SocialButton from '~/components/buttons/SocialButton.vue'
         <div class="flex items-center justify-between gap-x-2 sm:gap-x-6">
             <a
                 href="tel: +13605531160"
+                aria-label="Call Reset Rinse"
                 class="hidden text-amber-400 transition-colors duration-300 hover:text-green-400 md:block"
             >
                 360.553.1160
             </a>
-            <a href="tel: +13605531160">
+            <a aria-label="Call Reset Rinse" href="tel: +13605531160">
                 <UIcon
                     name="tabler:phone-filled"
                     class="hover:animate-wiggle block size-6 rounded-full text-amber-500 transition-all duration-300 hover:text-green-400 md:hidden"
