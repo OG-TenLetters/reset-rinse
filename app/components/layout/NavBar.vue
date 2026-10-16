@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import BrandStamp from '~/components/BrandStamp.vue'
 import { onClickOutside } from '@vueuse/core'
-import { serviceLinks } from '~/data/services'
+import { ServicesData } from '~/data/services'
 
 const servicesOpen = ref(false)
 const servicesMenu = useTemplateRef('servicesMenu')
@@ -77,7 +77,7 @@ onClickOutside(servicesMenu, () => {
                     class="absolute z-30 flex origin-top flex-col text-xs font-semibold whitespace-nowrap transition-transform duration-300 sm:text-sm"
                 >
                     <li
-                        v-for="serviceLink in serviceLinks"
+                        v-for="serviceLink in ServicesData"
                         :key="serviceLink.to"
                         class="bg-violet-500/80 tracking-wide backdrop-blur-sm transition-colors duration-150 first:rounded-tr-lg first:pt-1 last:rounded-b-lg last:pb-4 hover:bg-violet-500/60 hover:text-white sm:first:rounded-tr-xl sm:first:pt-2 sm:last:rounded-b-xl sm:last:pb-6"
                     >
