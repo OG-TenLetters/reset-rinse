@@ -1,56 +1,7 @@
 <script setup lang="ts">
-const items = [
-    {
-        images: [
-            '/test-images/test-1.jpg',
-            '/test-images/test-2.jpg',
-            '/test-images/test-3.jpg',
-            '/test-images/test-4.jpg',
-        ],
-        title: 'Window Cleaning',
-        description: 'Exterior window cleaning in Vancouver, Washington.',
-        location: 'Vancouver, WA',
-        internal_link: '/window-cleaning',
-    },
-    {
-        images: [
-            '/test-images/test-2.jpg',
-            '/test-images/test-3.jpg',
-            '/test-images/test-4.jpg',
-            '/test-images/test-5.jpg',
-        ],
-        title: 'Gutter Cleaning',
-        description: 'Full gutter clearing and downspout flushing.',
-        location: 'Battle Ground, WA',
-        internal_link: '/gutter-cleaning',
-    },
-    {
-        images: [
-            '/test-images/test-3.jpg',
-            '/test-images/test-4.jpg',
-            '/test-images/test-5.jpg',
-            '/test-images/test-6.jpg',
-        ],
-        title: 'Power/Soft Wash',
-        description: 'Concrete and exterior surface cleaning.',
-        location: 'Vancouver, WA',
-        internal_link: '/pressure-washing',
-    },
-    {
-        images: [
-            '/test-images/test-4.jpg',
-            '/test-images/test-5.jpg',
-            '/test-images/test-6.jpg',
-            '/test-images/test-1.jpg',
-        ],
-        title: 'Moss Treatment',
-        description:
-            'Safe treatment and removal of moss for the integrity of your roof',
-        location: 'Vancouver, WA',
-        internal_link: '/moss-treatment',
-    },
-]
+import { ServicesData } from '~/data/services'
 
+const items = Object.values(ServicesData).filter((service) => service.active)
 const activeIndex = ref(0)
 
 const activeItem = computed(() => {
@@ -77,7 +28,7 @@ function onSelect(index: number) {
         >
             <div class="relative w-full">
                 <NuxtImg
-                    :src="item.images[0]"
+                    :src="item.images.gallery[1]"
                     width="1920"
                     height="1080"
                     format="webp"
@@ -86,21 +37,21 @@ function onSelect(index: number) {
                     :fetchpriority="index === 0 ? 'high' : 'auto'"
                     :preload="index === 0 ? { fetchPriority: 'high' } : false"
                     class="aspect-video w-full mask-[linear-gradient(to_bottom,black_0%,black_calc(100%-120px),transparent_100%)] object-cover"
-                    :alt="`${item.title} service example`"
+                    :alt="`${item.name} service example`"
                 />
 
                 <NuxtImg
-                    :src="item.images[1]"
+                    :src="item.images.gallery[1]"
                     width="1200"
                     height="675"
                     format="webp"
                     quality="75"
                     loading="lazy"
                     class="-mt-8 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_120px,black_100%)] object-cover"
-                    :alt="`${item.title} service example`"
+                    :alt="`${item.name} service example`"
                 />
                 <!-- <NuxtImg
-                    :src="item.images[3]"
+                    :src="item.images.gallery[3]"
         
                     width="1200"
                     height="675"
@@ -111,14 +62,14 @@ function onSelect(index: number) {
                     class="-mt-8 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_120px,black_100%)] object-cover sm:hidden"
                 /> -->
                 <NuxtImg
-                    :src="item.images[3]"
+                    :src="item.images.gallery[3]"
                     width="1200"
                     height="675"
                     format="webp"
                     quality="75"
                     loading="lazy"
                     class="-mt-12 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_96px,black_calc(100%-160px),transparent_100%)] object-cover sm:hidden"
-                    :alt="`${item.title} service example`"
+                    :alt="`${item.name} service example`"
                 />
             </div>
             <div
@@ -140,13 +91,13 @@ function onSelect(index: number) {
                         <h2
                             class="xs:text-3xl text-xl font-bold md:text-3xl lg:text-4xl"
                         >
-                            {{ activeItem.title }}
+                            {{ activeItem.name }}
                         </h2>
 
                         <!-- Info Link -->
                         <a
-                            :href="activeItem.internal_link"
-                            :aria-label="`Learn more about ${activeItem.title}.`"
+                            :href="activeItem.to"
+                            :aria-label="`Learn more about ${activeItem.name}.`"
                             class="group flex h-5 w-5 rotate-45 items-center justify-center overflow-hidden rounded-sm border border-white/40 bg-violet-900/20 transition-colors duration-150 hover:border-green-500 hover:bg-violet-900"
                         >
                             <UIcon
@@ -157,9 +108,9 @@ function onSelect(index: number) {
                     </div>
 
                     <p
-                        class="mt-2 max-w-90 text-center text-xs sm:text-left md:text-[16px]"
+                        class="mt-2 max-w-90 text-center text-xs sm:text-left md:text-base"
                     >
-                        {{ activeItem.description }}
+                        {{ activeItem.description.shorthand }}
                     </p>
                 </div>
 

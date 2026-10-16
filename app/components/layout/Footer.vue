@@ -1,8 +1,30 @@
 <script setup lang="ts">
-import { serviceLocations } from '~/data/location.ts'
-import { serviceLinks } from '~/data/services.ts'
+import { ServicesData } from '~/data/services.ts'
+import { ServiceLocations } from '~/data/location.ts'
+
 import BrandStamp from '../BrandStamp.vue'
 import SocialButton from '../buttons/SocialButton.vue'
+
+const activeServices = computed(() =>
+    Object.values(ServicesData).filter((service) => service.active)
+)
+
+const activeLocations = computed(() =>
+    Object.values(ServiceLocations)
+        .filter((state) => state.active)
+        .flatMap((state) =>
+            Object.values(state.counties)
+                .filter((county) => county.active)
+                .flatMap((county) =>
+                    county.locations
+                        .filter((location) => location.active)
+                        .map((location) => ({
+                            ...location,
+                            state: state.abbreviation,
+                        }))
+                )
+        )
+)
 </script>
 
 <template>
@@ -10,7 +32,7 @@ import SocialButton from '../buttons/SocialButton.vue'
         class="relative z-100 rounded-t-2xl border-t-2 border-t-amber-400 bg-amber-200 p-6 sm:rounded-t-3xl md:rounded-t-4xl md:p-10"
     >
         <div
-            class="xs:text-[16px] -mt-4 mb-9 flex w-full flex-col items-center text-xs lg:hidden"
+            class="xs:text-base -mt-4 mb-9 flex w-full flex-col items-center text-xs lg:hidden"
         >
             <div
                 class="xs:scale-100 xs:py-4 scale-85 py-3 pr-1 sm:scale-125 sm:py-8"
@@ -44,12 +66,12 @@ import SocialButton from '../buttons/SocialButton.vue'
         </div>
 
         <div
-            class="xs:w-9/10 mx-auto grid w-19/20 grid-cols-[max-content_max-content] justify-between text-sm sm:grid-cols-[repeat(3,max-content)] sm:text-[16px] lg:w-full lg:grid-cols-[repeat(4,max-content)]"
+            class="xs:w-9/10 mx-auto grid w-19/20 grid-cols-[max-content_max-content] justify-between text-sm sm:grid-cols-[repeat(3,max-content)] sm:text-base lg:w-full lg:grid-cols-[repeat(4,max-content)]"
         >
             <div class="flex flex-col gap-y-6 sm:contents">
                 <!-- Get In Touch -->
                 <div
-                    class="xs:text-[16px] flex flex-col justify-self-start text-sm"
+                    class="xs:text-base flex flex-col justify-self-start text-sm"
                 >
                     <h3
                         class="xs:font-bold xs:tracking-normal mb-2 font-extrabold tracking-wide sm:mb-4 md:mb-6"
@@ -84,7 +106,7 @@ import SocialButton from '../buttons/SocialButton.vue'
                 </div>
 
                 <!-- Services -->
-                <div class="xs:text-[16px] text-sm">
+                <div class="xs:text-base text-sm">
                     <h3
                         class="xs:font-bold xs:tracking-normal mb-2 font-extrabold tracking-wide sm:mb-4 md:mb-6"
                     >
@@ -93,7 +115,7 @@ import SocialButton from '../buttons/SocialButton.vue'
 
                     <ul class="flex flex-col gap-y-2">
                         <li
-                            v-for="serviceLink in serviceLinks"
+                            v-for="serviceLink in activeServices"
                             :key="serviceLink.to"
                             class="font-semibold transition-colors duration-150 hover:text-amber-900"
                         >
@@ -106,25 +128,19 @@ import SocialButton from '../buttons/SocialButton.vue'
             </div>
 
             <!-- Service Area -->
-            <div class="xs:text-[16px] text-sm">
+            <div class="xs:text-base text-sm">
                 <h3
                     class="xs:font-bold xs:tracking-normal mb-2 font-extrabold tracking-wide sm:mb-4 md:mb-6"
                 >
                     Service Area
                 </h3>
-
                 <ul class="flex flex-col gap-y-2">
                     <li
-                        v-for="city in serviceLocations.states.washington
-                            .counties.clark.cities"
-                        :key="city.slug"
+                        v-for="location in activeLocations"
+                        :key="`${location.state}-${location.slug}`"
                         class="font-semibold"
                     >
-                        {{ city.name }},
-                        {{
-                            serviceLocations.states.washington.counties.clark
-                                .state
-                        }}
+                        {{ location.name }}, {{ location.state }}
                     </li>
                 </ul>
             </div>

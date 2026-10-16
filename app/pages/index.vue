@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Banner from '~/components/Banner.vue'
+import ServiceSection from '~/components/home/service-section/ServiceSection.vue'
 </script>
 
 <template>
@@ -12,10 +13,11 @@ import Banner from '~/components/Banner.vue'
         >
             Reflecting Your Expectations
         </h2>
-        <p class="text-sm font-semibold sm:text-lg sm:text-[16px] lg:text-xl">
+        <p class="text-sm font-semibold sm:text-base md:text-lg lg:text-xl">
             Your windows should do more than let light in-they should make your
-            home look its best. I cleah the glass, frames, and tracks so the
+            home look its best. I clean the glass, frames, and tracks so the
             view inside and out lives up to your expectations.
         </p>
     </div>
+    <ServiceSection />
 </template>
