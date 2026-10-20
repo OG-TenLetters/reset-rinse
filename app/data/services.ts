@@ -31,7 +31,7 @@ export interface ServiceData {
 export const ServicesData = {
     windows: {
         name: 'Window Cleaning',
-        to: '/window-cleaning',
+        to: '/',
         active: true,
 
         description: {
@@ -70,7 +70,7 @@ export const ServicesData = {
 
     gutters: {
         name: 'Gutter Cleaning',
-        to: '/gutter-cleaning',
+        to: '/',
         active: true,
 
         description: {
@@ -108,8 +108,8 @@ export const ServicesData = {
     },
 
     washing: {
-        name: 'Pressure/Soft Washing',
-        to: '/pressure-soft-washing',
+        name: 'Pressure/Soft Wash',
+        to: '/',
         active: true,
 
         description: {
@@ -148,7 +148,7 @@ export const ServicesData = {
 
     concrete: {
         name: 'Concrete Cleaning',
-        to: '/concrete-cleaning',
+        to: '/',
         active: true,
 
         description: {
@@ -187,11 +187,11 @@ export const ServicesData = {
 
     moss: {
         name: 'Moss Treatment',
-        to: '/moss-treatment',
+        to: '/',
         active: true,
 
         description: {
-            shorthand: 'Treatment of Roof Moss and Organic Buildup',
+            shorthand: 'Treatment of Roof Moss, Lichen and Organic Buildup',
 
             full: {
                 general:
@@ -225,8 +225,8 @@ export const ServicesData = {
     },
 
     holidayLights: {
-        name: 'Holiday Light Install',
-        to: '/holiday-light-Install',
+        name: 'Holiday Lights',
+        to: '/',
         active: true,
 
         description: {
@@ -253,12 +253,12 @@ export const ServicesData = {
         ],
 
         images: {
-            card: '/test-images/holiday-lights-card.jpg',
-            hero: '/test-images/holiday-lights-hero.jpg',
+            card: '/test-images/test-2.jpg',
+            hero: '/test-images/test-5.jpg',
             gallery: [
-                '/test-images/holiday-lights-1.jpg',
-                '/test-images/holiday-lights-2.jpg',
-                '/test-images/holiday-lights-3.jpg',
+                '/test-images/test-5.jpg',
+                '/test-images/test-6.jpg',
+                '/test-images/test-1.jpg',
             ],
         },
     },

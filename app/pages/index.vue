@@ -20,4 +20,5 @@ import ServiceSection from '~/components/home/service-section/ServiceSection.vue
         </p>
     </div>
     <ServiceSection />
+    <TestimonialsSection />
 </template>

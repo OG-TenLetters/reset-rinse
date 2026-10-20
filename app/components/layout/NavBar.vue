@@ -39,13 +39,13 @@ onClickOutside(servicesMenu, () => {
 <template>
     <nav
         aria-label="Primary"
-        class="xs:px-4 flex items-center justify-between rounded-2xl bg-gray-200 py-1 pr-2 pl-0 md:px-10 md:py-3"
+        class="xs:px-4 flex items-center justify-between rounded-2xl bg-gray-200 py-1 pr-2 pl-0 shadow-md shadow-black/50 md:px-10 md:py-3"
     >
         <BrandStamp class="xs:scale-75 scale-60 md:scale-100" />
 
         <!-- NavLinks -->
         <div
-            class="xs:text-sm xs:gap-x-2 xs:px-4 flex w-full justify-evenly gap-x-0.5 pr-1 pl-0 text-xs font-semibold sm:w-fit sm:gap-x-5 sm:text-lg md:text-2xl md:font-normal"
+            class="xs:text-sm xs:gap-x-2 xs:px-4 flex w-full justify-evenly gap-x-0.5 pr-1 pl-0 text-xs font-semibold sm:w-fit sm:gap-x-5 sm:text-lg md:text-2xl"
         >
             <div
                 ref="servicesMenu"
@@ -79,7 +79,7 @@ onClickOutside(servicesMenu, () => {
                     <li
                         v-for="serviceLink in ServicesData"
                         :key="serviceLink.to"
-                        class="bg-violet-500/80 tracking-wide backdrop-blur-sm transition-colors duration-150 first:rounded-tr-lg first:pt-1 last:rounded-b-lg last:pb-4 hover:bg-violet-500/60 hover:text-white sm:first:rounded-tr-xl sm:first:pt-2 sm:last:rounded-b-xl sm:last:pb-6"
+                        class="xs:text-base bg-slate-950/70 text-sm tracking-wide text-slate-100 backdrop-blur-sm transition-colors duration-150 first:rounded-tr-lg first:pt-1 last:rounded-b-lg last:pb-4 hover:bg-violet-500/60 hover:text-white sm:text-lg sm:first:rounded-tr-xl sm:first:pt-2 sm:last:rounded-b-xl sm:last:pb-6"
                     >
                         <NuxtLink
                             :to="serviceLink.to"
