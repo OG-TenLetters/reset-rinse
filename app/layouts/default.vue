@@ -6,7 +6,7 @@ import NavBar from '~/components/layout/NavBar.vue'
 
 <template>
     <div
-        class="fixed z-100 w-full max-w-300 rounded-b-2xl shadow-md shadow-black/50"
+        class="fixed left-1/2 z-100 w-full max-w-300 -translate-x-1/2 rounded-b-2xl"
     >
         <ContactBar />
         <NavBar />

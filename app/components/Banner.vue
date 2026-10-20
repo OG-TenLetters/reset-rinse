@@ -28,7 +28,7 @@ function onSelect(index: number) {
         >
             <div class="relative w-full">
                 <NuxtImg
-                    :src="item.images.gallery[1]"
+                    :src="item.images.hero"
                     width="1920"
                     height="1080"
                     format="webp"
@@ -41,28 +41,27 @@ function onSelect(index: number) {
                 />
 
                 <NuxtImg
+                    :src="item.images.gallery[0]"
+                    width="1200"
+                    height="675"
+                    format="webp"
+                    quality="75"
+                    loading="lazy"
+                    class="-mt-8 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_96px,black_calc(100%-160px),transparent_100%)] object-cover"
+                    :alt="`${item.name} service example`"
+                />
+                <NuxtImg
                     :src="item.images.gallery[1]"
                     width="1200"
                     height="675"
                     format="webp"
                     quality="75"
                     loading="lazy"
-                    class="-mt-8 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_120px,black_100%)] object-cover"
+                    class="-mt-14 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_96px,black_calc(100%-160px),transparent_100%)] object-cover"
                     :alt="`${item.name} service example`"
                 />
-                <!-- <NuxtImg
-                    :src="item.images.gallery[3]"
-        
-                    width="1200"
-                    height="675"
-                    sizes="100vw"
-                    format="webp"
-                    quality="75"
-                    loading="lazy"
-                    class="-mt-8 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_120px,black_100%)] object-cover sm:hidden"
-                /> -->
                 <NuxtImg
-                    :src="item.images.gallery[3]"
+                    :src="item.images.gallery[2]"
                     width="1200"
                     height="675"
                     format="webp"
@@ -83,7 +82,7 @@ function onSelect(index: number) {
         >
             <!-- Left Data -->
             <div
-                class="flex w-9/10 flex-col items-center gap-y-2 bg-linear-to-t from-transparent via-gray-950/80 to-transparent py-0 text-white sm:top-1/2 sm:mt-[20%] sm:gap-y-3 sm:px-10 sm:py-10 md:absolute md:left-0 md:mt-0 md:w-fit md:translate-x-0 md:-translate-y-1/3 md:items-baseline md:rounded-r-2xl md:bg-linear-to-l md:to-gray-950/93 md:pr-70"
+                class="flex w-9/10 flex-col items-center gap-y-2 bg-linear-to-t from-transparent via-gray-950/80 via-95% to-transparent py-0 text-white sm:top-1/2 sm:mt-[20%] sm:gap-y-3 sm:px-10 sm:py-10 md:absolute md:left-0 md:mt-0 md:w-fit md:translate-x-0 md:-translate-y-1/3 md:items-baseline md:rounded-r-2xl md:bg-linear-to-l md:via-80% md:to-gray-950/93 md:pr-70"
             >
                 <!-- Title / Description -->
                 <div class="flex flex-col items-center md:block">

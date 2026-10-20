@@ -9,7 +9,7 @@ defineProps<{
 <template>
     <!-- Service Card -->
     <div
-        class="group relative z-40 w-full overflow-hidden rounded-2xl bg-black shadow-lg shadow-gray-800/50 md:max-w-100"
+        class="group relative z-40 w-full overflow-hidden rounded-2xl border-0 border-amber-500 bg-black shadow-lg shadow-gray-800/50 md:max-w-100"
     >
         <!-- Service Picture Box -->
         <div class="relative">
@@ -39,7 +39,7 @@ defineProps<{
         >
             <!-- Service Title Box -->
             <div
-                class="flex flex-col items-center justify-center gap-y-2 rounded-t-full rounded-b-2xl border-t-4 border-violet-700/60 bg-linear-to-t from-amber-100/90 to-violet-200/90 px-3 pt-13 pb-4 text-center sm:gap-y-3 md:border-t-8"
+                class="flex flex-col items-center justify-center gap-y-2 rounded-t-full rounded-b-2xl border-t-4 border-violet-700/60 bg-linear-to-t from-amber-100/90 to-violet-200/90 px-3 pt-13 pb-0 text-center sm:gap-y-3 md:border-t-8"
             >
                 <h2
                     class="xs:text-2xl text-xl font-bold text-zinc-950 sm:text-3xl md:text-xl lg:text-2xl"
@@ -54,7 +54,7 @@ defineProps<{
                 </p>
 
                 <NuxtLink
-                    class="xs:text-base w-full rounded-t-[5rem] rounded-b-xl border-3 border-violet-900 bg-violet-400 px-4 py-1 text-sm font-bold tracking-wide text-violet-950 shadow-2xs shadow-violet-950/50 transition-colors duration-150 hover:border-amber-700/50 hover:bg-amber-300/50 hover:text-amber-800/50"
+                    class="xs:text-base w-full rounded-t-3xl border-3 border-violet-900 bg-violet-400 px-4 py-1 text-sm font-bold tracking-wide text-violet-950 shadow-2xs shadow-violet-950/50 transition-colors duration-150 hover:border-amber-700/50 hover:bg-amber-300/50 hover:text-amber-800/50"
                     :to="service.to"
                     :aria-label="`Learn more about my ${service.name} services`"
                 >
