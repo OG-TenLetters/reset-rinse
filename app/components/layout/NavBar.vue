@@ -34,10 +34,45 @@ function toggleServices() {
 onClickOutside(servicesMenu, () => {
     instantCloseServices()
 })
+
+const scrollToNearestContact = () => {
+    const sections = document.querySelectorAll<HTMLElement>(
+        '[data-contact-section]'
+    )
+
+    const viewportCenter = window.innerHeight / 2
+
+    const nearest = [...sections].sort((a, b) => {
+        const distanceA = Math.abs(
+            a.getBoundingClientRect().top - viewportCenter
+        )
+        const distanceB = Math.abs(
+            b.getBoundingClientRect().top - viewportCenter
+        )
+
+        return distanceA - distanceB
+    })[0]
+
+    if (nearest) {
+        const navbarHeight =
+            document.querySelector<HTMLElement>('[data-navbar]')
+                ?.offsetHeight ?? 0
+
+        window.scrollTo({
+            top:
+                nearest.getBoundingClientRect().top +
+                window.scrollY -
+                navbarHeight -
+                100,
+            behavior: 'smooth',
+        })
+    }
+}
 </script>
 
 <template>
     <nav
+        data-navbar
         aria-label="Primary"
         class="xs:px-4 flex items-center justify-between rounded-2xl bg-gray-200 py-1 pr-2 pl-0 shadow-md shadow-black/50 md:px-10 md:py-3"
     >
@@ -94,17 +129,20 @@ onClickOutside(servicesMenu, () => {
 
             <div aria-hidden="true">|</div>
 
-            <a
+            <NuxtLink
                 class="transition-colors duration-150 hover:text-amber-800"
-                href="#about-me"
-                >About Me</a
+                to="/#about-me"
+                >About Me</NuxtLink
             >
 
             <div aria-hidden="true">|</div>
 
-            <div class="transition-colors duration-150 hover:text-amber-800">
+            <button
+                @click="scrollToNearestContact"
+                class="cursor-pointer transition-colors duration-150 hover:text-amber-800"
+            >
                 Contact Me
-            </div>
+            </button>
         </div>
 
         <!-- Regular Quote Button -->

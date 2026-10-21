@@ -29,7 +29,7 @@ const activeLocations = computed(() =>
 
 <template>
     <div
-        class="relative z-100 rounded-t-2xl border-t-2 border-t-amber-400 bg-amber-200 p-6 sm:rounded-t-3xl md:rounded-t-4xl md:p-10"
+        class="relative z-100 rounded-t-2xl border-t-2 border-t-amber-400 bg-amber-200 p-5 sm:rounded-t-3xl md:rounded-t-4xl md:p-10"
     >
         <div
             class="xs:text-base -mt-4 mb-9 flex w-full flex-col items-center text-xs lg:hidden"
@@ -82,7 +82,7 @@ const activeLocations = computed(() =>
                         <a
                             href="tel:13605531160"
                             aria-label="Call Reset Rinse"
-                            class="group flex items-center gap-x-1 font-semibold hover:text-amber-900 sm:gap-x-2"
+                            class="group xs:flex-row xs:items-center flex flex-col items-start gap-x-1 font-semibold hover:text-amber-900 sm:gap-x-2"
                         >
                             <UIcon
                                 name="tabler:phone-filled"
@@ -94,7 +94,7 @@ const activeLocations = computed(() =>
                         <a
                             aria-label="Email Reset Rinse"
                             href="mailto:hello@resetrinse.com"
-                            class="group flex items-center gap-x-1 font-semibold hover:text-amber-900 sm:gap-x-2"
+                            class="group xs:flex-row xs:items-center flex flex-col items-start gap-x-1 font-semibold hover:text-amber-900 sm:gap-x-2"
                         >
                             <UIcon
                                 name="tabler:mail-filled"
