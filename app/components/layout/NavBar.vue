@@ -129,10 +129,10 @@ const scrollToNearestContact = () => {
 
             <div aria-hidden="true">|</div>
 
-            <a
+            <NuxtLink
                 class="transition-colors duration-150 hover:text-amber-800"
-                href="#about-me"
-                >About Me</a
+                to="/#about-me"
+                >About Me</NuxtLink
             >
 
             <div aria-hidden="true">|</div>

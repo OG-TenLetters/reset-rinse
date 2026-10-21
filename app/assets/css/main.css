@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
 
+html {
+    scroll-behavior: smooth;
+}
+
 @keyframes wiggle {
     0%,
     9% {
