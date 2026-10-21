@@ -39,7 +39,7 @@ defineProps<{
         >
             <!-- Service Title Box -->
             <div
-                class="flex flex-col items-center justify-center gap-y-2 rounded-t-full rounded-b-2xl border-t-4 border-violet-700/60 bg-linear-to-t from-amber-100/90 to-violet-200/90 px-3 pt-13 pb-0 text-center sm:gap-y-3 md:border-t-8"
+                class="flex flex-col items-center justify-center gap-y-2 rounded-t-full rounded-b-2xl border-t-4 border-violet-700/60 bg-linear-to-t from-amber-100/90 to-violet-200/90 px-3 pt-13 pb-3 text-center sm:gap-y-3 md:border-t-8"
             >
                 <h2
                     class="xs:text-2xl text-xl font-bold text-zinc-950 sm:text-3xl md:text-xl lg:text-2xl"

@@ -72,7 +72,7 @@ const starRatings: Record<string, number> = {
     <!-- Border styling -->
     <div
         ref="cardRef"
-        class="h-full w-full rounded-2xl bg-linear-to-br from-violet-800 to-amber-500/65 p-0.5 shadow-lg shadow-violet-950"
+        class="h-full w-full rounded-2xl bg-linear-to-br from-violet-800 to-amber-500/65 p-0.5 shadow-lg shadow-violet-950 transition-transform duration-450 hover:-translate-y-2"
     >
         <div class="flex h-full flex-col justify-start">
             <div class="xs:p-7 flex flex-1 flex-col rounded-xl bg-slate-50 p-4">

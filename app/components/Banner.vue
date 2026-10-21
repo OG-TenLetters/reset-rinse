@@ -163,11 +163,12 @@ function onSelect(index: number) {
                 <div
                     class="h-full w-full rounded-2xl border-2 border-white/70 bg-gray-200/0 p-4 text-white/70"
                 >
-                    <div
+                    <section
+                        data-contact-section
                         class="flex h-full items-center justify-center text-2xl font-semibold tracking-wide"
                     >
                         Contact Placeholder
-                    </div>
+                    </section>
                 </div>
             </div>
         </div>

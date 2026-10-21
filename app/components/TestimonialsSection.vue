@@ -21,6 +21,12 @@ const reviewsData = computed(() => mockGoogleReviews.reviews.slice(0, 6))
                 prev-icon="tabler:caret-left-filled"
                 next-icon="tabler:caret-right-filled"
                 loop
+                :autoplay="{
+                    delay: 6000,
+                    stopOnInteraction: false,
+                    stopOnMouseEnter: true,
+                    stopOnFocusIn: true,
+                }"
                 :prev="{
                     ui: { leadingIcon: 'size-7' },
                 }"
