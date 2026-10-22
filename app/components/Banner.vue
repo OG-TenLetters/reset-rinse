@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ServicesData } from '~/data/services'
+import ContactForm from './ContactForm.vue'
 
 const items = Object.values(ServicesData).filter((service) => service.active)
 const activeIndex = ref(0)
@@ -11,10 +12,56 @@ const activeItem = computed(() => {
 function onSelect(index: number) {
     activeIndex.value = index
 }
+
+const isAnimating = ref(false)
+
+function handleQuoteClick() {
+    scrollToNearestContact()
+
+    isAnimating.value = true
+
+    setTimeout(() => {
+        isAnimating.value = false
+    }, 1000)
+}
+
+const scrollToNearestContact = () => {
+    const sections = document.querySelectorAll<HTMLElement>(
+        '[data-contact-section]'
+    )
+
+    const viewportCenter = window.innerHeight / 2
+
+    const nearest = [...sections].sort((a, b) => {
+        const distanceA = Math.abs(
+            a.getBoundingClientRect().top - viewportCenter
+        )
+        const distanceB = Math.abs(
+            b.getBoundingClientRect().top - viewportCenter
+        )
+
+        return distanceA - distanceB
+    })[0]
+
+    if (nearest) {
+        const navbarHeight =
+            document.querySelector<HTMLElement>('[data-navbar]')
+                ?.offsetHeight ?? 0
+
+        window.scrollTo({
+            top:
+                nearest.getBoundingClientRect().top +
+                window.scrollY -
+                navbarHeight -
+                100,
+            behavior: 'smooth',
+        })
+    }
+}
 </script>
 
 <template>
-    <div class="relative -mb-4 flex overflow-hidden bg-black md:h-160">
+    <div class="relative -mb-4 grid overflow-hidden bg-black">
         <!-- CAROUSEL / IMAGES -->
         <UCarousel
             v-slot="{ item, index }"
@@ -22,7 +69,7 @@ function onSelect(index: number) {
             fade
             loop
             :autoplay="{ delay: 6000 }"
-            class="w-full"
+            class="absolute inset-0 h-full w-full"
             :items="items"
             @select="onSelect"
         >
@@ -78,14 +125,14 @@ function onSelect(index: number) {
 
         <!-- Site Data Container -->
         <div
-            class="absolute inset-x-0 inset-y-10 z-10 flex flex-col items-center gap-6 pt-30 md:block"
+            class="relative z-10 col-start-1 row-start-1 flex flex-col items-center justify-between gap-y-6 pt-40 pb-10 md:items-center lg:flex-row"
         >
             <!-- Left Data -->
             <div
-                class="flex w-9/10 flex-col items-center gap-y-2 bg-linear-to-t from-transparent via-gray-950/80 via-95% to-transparent py-0 text-white sm:top-1/2 sm:mt-[20%] sm:gap-y-3 sm:px-10 sm:py-10 md:absolute md:left-0 md:mt-0 md:w-fit md:translate-x-0 md:-translate-y-1/3 md:items-baseline md:rounded-r-2xl md:bg-linear-to-l md:via-80% md:to-gray-950/93 md:pr-70"
+                class="flex w-full flex-col items-center gap-y-2 bg-linear-to-t from-transparent via-gray-950/80 via-95% to-transparent py-0 text-white sm:gap-y-3 sm:px-10 sm:py-10 lg:mt-0 lg:w-4/9 lg:items-baseline lg:rounded-r-2xl lg:bg-linear-to-l lg:via-80% lg:to-gray-950/93 lg:pr-5"
             >
                 <!-- Title / Description -->
-                <div class="flex flex-col items-center md:block">
+                <div class="flex flex-col items-center lg:block">
                     <div class="flex items-center gap-x-3">
                         <h2
                             class="xs:text-3xl text-xl font-bold md:text-3xl lg:text-4xl"
@@ -107,7 +154,7 @@ function onSelect(index: number) {
                     </div>
 
                     <p
-                        class="mt-2 max-w-90 text-center text-xs sm:text-left md:text-base"
+                        class="mt-2 max-w-90 text-center text-xs sm:text-left lg:text-base"
                     >
                         {{ activeItem.description.shorthand }}
                     </p>
@@ -118,6 +165,7 @@ function onSelect(index: number) {
                     class="md:text-md flex gap-x-4 text-xs font-semibold tracking-wide sm:text-sm lg:text-lg"
                 >
                     <button
+                        @click="handleQuoteClick"
                         class="rounded-lg border-3 border-white/80 bg-black/50 px-3 py-1.5 md:rounded-xl md:px-5 md:py-3 lg:px-6 lg:py-3"
                     >
                         Request a Quote
@@ -132,7 +180,7 @@ function onSelect(index: number) {
 
                 <!-- Tags -->
                 <div
-                    class="mt-1 flex max-w-90 flex-row flex-wrap justify-center gap-x-2 gap-y-2 sm:mt-3 md:flex-col md:flex-nowrap"
+                    class="mt-1 flex max-w-90 flex-row flex-wrap justify-center gap-x-2 gap-y-2 sm:mt-3 lg:flex-col lg:flex-nowrap"
                 >
                     <div
                         class="flex w-fit items-center gap-x-2 rounded-xl border border-white/20 bg-linear-to-bl from-green-600/35 to-violet-950/75 px-4 py-1 text-xs"
@@ -157,19 +205,11 @@ function onSelect(index: number) {
                 </div>
             </div>
             <!-- Right Data -->
-            <div
-                class="z-1 flex max-h-100 w-9/10 flex-1 rounded-2xl md:absolute md:top-1/2 md:right-1/25 md:h-7/10 md:w-4/9 md:translate-x-0 md:-translate-y-1/3"
-            >
-                <div
-                    class="h-full w-full rounded-2xl border-2 border-white/70 bg-gray-200/0 p-4 text-white/70"
-                >
-                    <section
-                        data-contact-section
-                        class="flex h-full items-center justify-center text-2xl font-semibold tracking-wide"
-                    >
-                        Contact Placeholder
-                    </section>
-                </div>
+            <div class="z-1 flex w-full max-w-120 flex-1 rounded-2xl md:mr-10">
+                <ContactForm
+                    :class="{ 'contact-highlight': isAnimating }"
+                    class="opacity-85"
+                />
             </div>
         </div>
     </div>
