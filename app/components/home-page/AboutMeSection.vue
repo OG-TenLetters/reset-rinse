@@ -4,24 +4,23 @@ import SectionTitle from '../SectionTitle.vue'
 
 <template>
     <section id="about-me">
-        <div class="py-10 md:py-20">
+        <div class="px-5 py-10 sm:px-10 md:py-20">
             <SectionTitle
                 tag="Who I am"
-                title="about me any my mission"
+                title="about me and my mission"
                 details=""
             />
-            <div
-                class="xs:flow-root flex flex-col items-center px-5 py-10 sm:px-10 md:py-20"
-            >
+            <div class="mt-10 flex flex-col items-center md:mt-20 md:flex-row">
                 <!-- About Me Image -->
                 <div
-                    class="xs:float-left relative mr-5 mb-4 block w-3/5 overflow-hidden rounded-xl shadow-lg shadow-black/50 md:flex md:w-2/5 md:rounded-3xl"
+                    class="xs:float-left relative mr-5 mb-4 block w-3/5 overflow-hidden rounded-xl shadow-lg shadow-black/50 md:flex md:w-4/5 md:rounded-3xl"
                 >
                     <NuxtImg
                         width="480"
                         height="680"
                         class="w-full"
                         src="/Jadon.jpg"
+                        alt="Picture of the Business Owner"
                     />
 
                     <!-- Image Title -->
@@ -43,16 +42,31 @@ import SectionTitle from '../SectionTitle.vue'
                 </div>
 
                 <!-- About Me Description -->
-                <p class="mt-0 w-full text-lg sm:text-xl md:mt-10 md:text-2xl">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Necessitatibus ipsum tempore velit hic doloremque, possimus
-                    minus recusandae fuga praesentium ratione assumenda vero
-                    tenetur provident est obcaecati Lorem ipsum, dolor sit amet
-                    consectetur adipisicing elit. Harum veniam doloribus
-                    deleniti similique at rem corporis sunt ut temporibus culpa.
-                    Voluptatem recusandae sint eveniet unde hic eos voluptas.
-                    Libero, sit.
-                </p>
+                <div
+                    class="flex w-full flex-col items-center gap-y-8 text-center md:items-start md:text-left"
+                >
+                    <h2
+                        class="hidden text-4xl font-semibold text-violet-950 md:block"
+                    >
+                        Hi! I'm Jadon.
+                    </h2>
+                    <p
+                        class="mt-5 w-full text-lg sm:text-xl md:mt-0 md:text-2xl"
+                    >
+                        <span
+                            class="font-semibold whitespace-nowrap text-violet-950 md:hidden"
+                            >Hi! I'm Jadon.</span
+                        >
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Necessitatibus ipsum tempore velit hic doloremque,
+                        possimus minus recusandae fuga praesentium ratione
+                        assumenda vero tenetur provident est obcaecati Lorem
+                        ipsum, dolor sit amet consectetur adipisicing elit.
+                        Harum veniam doloribus deleniti similique at rem
+                        corporis sunt ut temporibus culpa. Voluptatem recusandae
+                        sint eveniet unde hic eos voluptas. Libero, sit.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
