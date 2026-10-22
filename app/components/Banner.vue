@@ -183,21 +183,21 @@ const scrollToNearestContact = () => {
                     class="mt-1 flex max-w-90 flex-row flex-wrap justify-center gap-x-2 gap-y-2 sm:mt-3 lg:flex-col lg:flex-nowrap"
                 >
                     <div
-                        class="flex w-fit items-center gap-x-2 rounded-xl border border-white/20 bg-linear-to-bl from-green-600/35 to-violet-950/75 px-4 py-1 text-xs"
+                        class="flex w-fit items-center gap-x-2 rounded-xl border border-white/20 bg-linear-to-bl from-green-600/55 to-violet-950/95 px-4 py-1 text-xs font-semibold"
                     >
                         <UIcon class="text-green-400" name="tabler:check" />
                         <h3>Review Thing</h3>
                     </div>
 
                     <div
-                        class="flex w-fit items-center gap-x-2 rounded-xl border border-white/20 bg-linear-to-bl from-green-600/35 to-violet-950/75 px-4 py-1 text-xs"
+                        class="flex w-fit items-center gap-x-2 rounded-xl border border-white/20 bg-linear-to-bl from-green-600/55 to-violet-950/95 px-4 py-1 text-xs font-semibold"
                     >
                         <UIcon class="text-green-400" name="tabler:check" />
                         <h3>Locally Owned - 2026</h3>
                     </div>
 
                     <div
-                        class="flex w-fit items-center gap-x-2 rounded-xl border border-white/20 bg-linear-to-bl from-green-600/35 to-violet-950/75 px-4 py-1 text-xs"
+                        class="flex w-fit items-center gap-x-2 rounded-xl border border-white/20 bg-linear-to-bl from-green-600/55 to-violet-950/95 px-4 py-1 text-xs font-semibold"
                     >
                         <UIcon class="text-green-400" name="tabler:check" />
                         <h3>1 year roof cleaning guarantee</h3>
@@ -208,7 +208,7 @@ const scrollToNearestContact = () => {
             <div class="z-1 flex w-full max-w-120 flex-1 rounded-2xl md:mr-10">
                 <ContactForm
                     :class="{ 'contact-highlight': isAnimating }"
-                    class="opacity-85"
+                    class="mx-5 opacity-95"
                 />
             </div>
         </div>
