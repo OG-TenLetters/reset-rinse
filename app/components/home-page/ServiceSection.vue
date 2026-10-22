@@ -15,7 +15,7 @@ const activeServices = computed(() =>
             <SectionTitle
                 tag="time for a reset"
                 title="my services"
-                details="Give every side of you home the reset it deserves"
+                details="Give every side of your home the reset it deserves"
             />
             <!-- Service Cards -->
             <div

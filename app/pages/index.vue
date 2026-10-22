@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import Banner from '~/components/Banner.vue'
 import AboutMeSection from '~/components/home-page/AboutMeSection.vue'
-import ServiceSection from '~/components/home-page/service-section/ServiceSection.vue'
+import ServiceAreaSection from '~/components/home-page/ServiceAreaSection.vue'
+import ServiceSection from '~/components/home-page/ServiceSection.vue'
 </script>
 
 <template>
@@ -23,4 +24,5 @@ import ServiceSection from '~/components/home-page/service-section/ServiceSectio
     <ServiceSection />
     <TestimonialsSection />
     <AboutMeSection />
+    <ServiceAreaSection />
 </template>
