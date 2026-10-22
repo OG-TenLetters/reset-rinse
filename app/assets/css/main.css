@@ -36,6 +36,53 @@ html {
     }
 }
 
+@keyframes contact-highlight {
+    /* First pulse: White */
+    0% {
+        outline: 3px solid rgba(255, 255, 255, 0.9);
+        outline-offset: 0px;
+    }
+
+    /* Second pulse: Violet */
+    40% {
+        outline: 3px solid rgba(139, 92, 246, 0);
+        outline-offset: 0px;
+    }
+    50% {
+        outline: 3px solid rgba(255, 255, 255, 0);
+        outline-offset: 12px;
+    }
+
+    50% {
+        outline: 3px solid rgba(139, 92, 246, 0.9);
+        outline-offset: 2px;
+    }
+
+    100% {
+        outline: 3px solid rgba(139, 92, 246, 0);
+        outline-offset: 8px;
+    }
+}
+
+.contact-highlight {
+    animation: contact-highlight 1.6s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .contact-highlight {
+        animation: none;
+    }
+}
+.contact-highlight {
+    animation: contact-highlight 1.2s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .contact-highlight {
+        animation: none;
+    }
+}
+
 @theme {
     --animate-wiggle: wiggle 1.65s ease-in-out infinite;
     --breakpoint-xs: 30rem;
