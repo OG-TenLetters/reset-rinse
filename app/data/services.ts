@@ -1,7 +1,18 @@
+export interface ServiceImage {
+    src: string
+    alt: string
+}
+
 export interface ServiceData {
     name: string
     to: string
     active: boolean
+    detailsHeading: string
+    highlights: string[]
+    seo: {
+        title: string
+        description: string
+    }
 
     description: {
         shorthand: string
@@ -25,14 +36,31 @@ export interface ServiceData {
         card: string
         hero: string
         gallery: string[]
+        beforeAfter: {
+            before: ServiceImage
+            after: ServiceImage
+            // Keep this true while using sample pictures, not genuine project results.
+            placeholder: boolean
+        }
     }
 }
 
 export const ServicesData = {
     windows: {
         name: 'Window Cleaning',
-        to: '/',
+        to: '/window-cleaning',
         active: true,
+        detailsHeading: 'Care for Every Window Detail',
+        highlights: [
+            'Interior & exterior glass',
+            'Frames, sills & tracks',
+            'Clear Finish Guarantee',
+        ],
+        seo: {
+            title: 'Window Cleaning in Vancouver, WA | Reset Rinse',
+            description:
+                'Interior and exterior window cleaning in Vancouver, WA. Reset Rinse details glass, frames, sills, and tracks for a polished finish.',
+        },
 
         description: {
             shorthand: 'Detailed Cleaning of Windows, Frames, and Tracks',
@@ -65,13 +93,35 @@ export const ServicesData = {
                 '/test-images/test-2.jpg',
                 '/test-images/test-3.jpg',
             ],
+            beforeAfter: {
+                before: {
+                    src: '/test-images/test-1.jpg',
+                    alt: 'Sample placeholder before image for window cleaning',
+                },
+                after: {
+                    src: '/test-images/test-2.jpg',
+                    alt: 'Sample placeholder after image for window cleaning',
+                },
+                placeholder: true,
+            },
         },
     },
 
     gutters: {
         name: 'Gutter Cleaning',
-        to: '/',
+        to: '/gutter-cleaning',
         active: true,
+        detailsHeading: 'Keep Water Moving Where It Belongs',
+        highlights: [
+            'Removal of gutter debris',
+            'Accessible downspout openings',
+            'Clear Path Guarantee',
+        ],
+        seo: {
+            title: 'Gutter Cleaning in Vancouver, WA | Reset Rinse',
+            description:
+                'Gutter cleaning in Vancouver, WA, including removal of leaves, needles, moss, and debris from channels and accessible downspout openings.',
+        },
 
         description: {
             shorthand: 'Clearing of Gutters, Downspouts, and Any Debris',
@@ -104,13 +154,35 @@ export const ServicesData = {
                 '/test-images/test-3.jpg',
                 '/test-images/test-4.jpg',
             ],
+            beforeAfter: {
+                before: {
+                    src: '/test-images/test-2.jpg',
+                    alt: 'Sample placeholder before image for gutter cleaning',
+                },
+                after: {
+                    src: '/test-images/test-3.jpg',
+                    alt: 'Sample placeholder after image for gutter cleaning',
+                },
+                placeholder: true,
+            },
         },
     },
 
     washing: {
         name: 'Pressure/Soft Wash',
-        to: '/',
+        to: '/pressure-washing',
         active: true,
+        detailsHeading: 'The Right Wash for Each Surface',
+        highlights: [
+            'Surface-appropriate methods',
+            'Pressure & soft-washing options',
+            'Careful Cleaning Guarantee',
+        ],
+        seo: {
+            title: 'Pressure & Soft Washing in Vancouver, WA | Reset Rinse',
+            description:
+                'Pressure and soft washing in Vancouver, WA. Reset Rinse evaluates each exterior surface to choose suitable cleaning methods and pressure.',
+        },
 
         description: {
             shorthand: 'Exterior Washing for Siding, Surfaces, and Grime',
@@ -143,13 +215,35 @@ export const ServicesData = {
                 '/test-images/test-4.jpg',
                 '/test-images/test-5.jpg',
             ],
+            beforeAfter: {
+                before: {
+                    src: '/test-images/test-3.jpg',
+                    alt: 'Sample placeholder before image for pressure and soft washing',
+                },
+                after: {
+                    src: '/test-images/test-4.jpg',
+                    alt: 'Sample placeholder after image for pressure and soft washing',
+                },
+                placeholder: true,
+            },
         },
     },
 
     concrete: {
         name: 'Concrete Cleaning',
-        to: '/',
+        to: '/concrete-cleaning',
         active: true,
+        detailsHeading: 'Renew Your Outdoor Concrete Surfaces',
+        highlights: [
+            'Driveways & sidewalks',
+            'Walkways, patios & steps',
+            'Consistent Clean Guarantee',
+        ],
+        seo: {
+            title: 'Concrete Cleaning in Vancouver, WA | Reset Rinse',
+            description:
+                'Concrete cleaning for driveways, sidewalks, walkways, and patios in Vancouver, WA. Remove surface dirt, grime, and organic buildup.',
+        },
 
         description: {
             shorthand: 'Deep Cleaning of Driveways, Walkways, and Patios',
@@ -182,13 +276,35 @@ export const ServicesData = {
                 '/test-images/test-5.jpg',
                 '/test-images/test-6.jpg',
             ],
+            beforeAfter: {
+                before: {
+                    src: '/test-images/test-4.jpg',
+                    alt: 'Sample placeholder before image for concrete cleaning',
+                },
+                after: {
+                    src: '/test-images/test-5.jpg',
+                    alt: 'Sample placeholder after image for concrete cleaning',
+                },
+                placeholder: true,
+            },
         },
     },
 
     moss: {
         name: 'Moss Treatment',
-        to: '/',
+        to: '/moss-treatment',
         active: true,
+        detailsHeading: 'A Gradual, Roof-Conscious Treatment',
+        highlights: [
+            'Targeted treatment areas',
+            'Gradual release process',
+            'Treatment Coverage Guarantee',
+        ],
+        seo: {
+            title: 'Roof Moss Treatment in Vancouver, WA | Reset Rinse',
+            description:
+                'Targeted roof moss treatment in Vancouver, WA, designed to address growth gradually while avoiding unnecessarily aggressive roof-cleaning methods.',
+        },
 
         description: {
             shorthand: 'Treatment of Roof Moss, Lichen and Organic Buildup',
@@ -221,13 +337,35 @@ export const ServicesData = {
                 '/test-images/test-6.jpg',
                 '/test-images/test-1.jpg',
             ],
+            beforeAfter: {
+                before: {
+                    src: '/test-images/test-5.jpg',
+                    alt: 'Sample placeholder before image for roof moss treatment',
+                },
+                after: {
+                    src: '/test-images/test-6.jpg',
+                    alt: 'Sample placeholder after image for roof moss treatment',
+                },
+                placeholder: true,
+            },
         },
     },
 
     holidayLights: {
         name: 'Holiday Lights',
-        to: '/',
+        to: '/holiday-lights',
         active: true,
+        detailsHeading: 'A Thoughtful Exterior Lighting Display',
+        highlights: [
+            'Rooflines & architectural details',
+            'Careful, consistent placement',
+            'Installation Guarantee',
+        ],
+        seo: {
+            title: 'Holiday & Christmas Light Installation | Reset Rinse',
+            description:
+                'Holiday light installation and Christmas light installation in Vancouver, WA. Reset Rinse helps create clean, festive exterior displays.',
+        },
 
         description: {
             shorthand: 'Professional Installation of Exterior Holiday Lighting',
@@ -260,6 +398,17 @@ export const ServicesData = {
                 '/test-images/test-6.jpg',
                 '/test-images/test-1.jpg',
             ],
+            beforeAfter: {
+                before: {
+                    src: '/test-images/test-5.jpg',
+                    alt: 'Sample placeholder before image for holiday light installation',
+                },
+                after: {
+                    src: '/test-images/test-6.jpg',
+                    alt: 'Sample placeholder after image for holiday light installation',
+                },
+                placeholder: true,
+            },
         },
     },
 } satisfies Record<string, ServiceData>
