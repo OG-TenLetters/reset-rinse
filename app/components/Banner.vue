@@ -133,6 +133,11 @@ const scrollToNearestContact = () => {
             >
                 <!-- Title / Description -->
                 <div class="flex flex-col items-center lg:block">
+                    <p
+                        class="mb-3 text-center text-xs font-semibold tracking-[0.18em] text-amber-300 uppercase sm:text-sm lg:text-left"
+                    >
+                        Reset Rinse · Property Care
+                    </p>
                     <div class="flex items-center gap-x-3">
                         <h2
                             class="xs:text-3xl text-xl font-bold md:text-3xl lg:text-4xl"
@@ -206,11 +211,15 @@ const scrollToNearestContact = () => {
                 </div>
             </div>
             <!-- Right Data -->
-            <div class="z-1 flex w-full max-w-120 flex-1 rounded-2xl md:mr-10">
-                <ContactForm
-                    :class="{ 'contact-highlight': isAnimating }"
-                    class="mx-5 opacity-95"
-                />
+            <div
+                class="z-1 flex w-full max-w-120 min-w-0 flex-1 rounded-2xl px-5 md:mr-10 md:px-0"
+            >
+                <div class="relative">
+                    <ContactForm
+                        :class="{ 'contact-highlight': isAnimating }"
+                        class="opacity-95 md:mx-5"
+                    />
+                </div>
             </div>
         </div>
     </div>

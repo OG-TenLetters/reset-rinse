@@ -1,23 +1,44 @@
 <script setup lang="ts">
+defineOptions({ inheritAttrs: false })
+
 import { ServicesData } from '~/data/services'
 
 const turnstileContainer = ref<HTMLElement | null>(null)
 const isTurnstileVisible = ref(false)
+const mobileTurnstile = ref(false)
+const turnstileReady = ref(false)
 
 let turnstileObserver: ResizeObserver | undefined
+let mobileBreakpoint: MediaQueryList | undefined
+
+function onBreakpointChange(event: MediaQueryListEvent) {
+    mobileTurnstile.value = event.matches
+    // If the viewport crosses 420px, the iframe changes its container.
+    // Clear its token and reset so the user re-verifies as needed.
+    turnstileToken.value = ''
+    nextTick(() => turnstile.value?.reset())
+}
 
 onMounted(() => {
-    const widget = turnstileContainer.value?.firstElementChild
+    mobileBreakpoint = window.matchMedia('(max-width: 420px)')
+    mobileTurnstile.value = mobileBreakpoint.matches
+    mobileBreakpoint.addEventListener('change', onBreakpointChange)
 
-    if (!widget) return
+    // Mount only after choosing the initial location, so the iframe is not
+    // moved immediately after its first render on phones.
+    turnstileReady.value = true
+
+    const container = turnstileContainer.value
+    if (!container) return
 
     const updateVisibility = () => {
-        isTurnstileVisible.value = widget.getBoundingClientRect().height > 0
+        isTurnstileVisible.value =
+            (container.firstElementChild?.getBoundingClientRect().height ?? 0) >
+            0
     }
 
     turnstileObserver = new ResizeObserver(updateVisibility)
-    turnstileObserver.observe(widget)
-
+    turnstileObserver.observe(container)
     updateVisibility()
 })
 
@@ -27,6 +48,7 @@ const activeServices = computed(() =>
 
 onBeforeUnmount(() => {
     turnstileObserver?.disconnect()
+    mobileBreakpoint?.removeEventListener('change', onBreakpointChange)
 })
 interface ContactFormData {
     name: string
@@ -156,255 +178,288 @@ async function submitForm() {
 </script>
 
 <template>
-    <div
-        data-contact-section
-        class="h-fit w-full max-w-132 overflow-hidden rounded-2xl border-y-3 border-t-gray-900/50 border-b-amber-700/50 bg-slate-100 pt-9 pb-7 text-center text-gray-900 shadow-lg shadow-black/40 sm:pt-16 sm:pb-8"
-    >
-        <!-- Title -->
-        <form class="flex flex-col gap-y-4 px-7" @submit.prevent="submitForm">
-            <!-- Spam protection: hidden honeypot -->
-            <div class="absolute left-[-9999px]" aria-hidden="true">
-                <label :for="`${formId}-contact-website`">Website</label>
-                <input
-                    :id="`${formId}-contact-website`"
-                    v-model="form.website"
-                    type="text"
-                    tabindex="-1"
-                    autocomplete="off"
-                />
-            </div>
-            <!-- Contact Information -->
-            <div class="flex flex-wrap gap-x-4 gap-y-4">
-                <div class="xs:grid-cols-2 grid w-full grid-cols-1 gap-x-5">
-                    <div class="flex w-full flex-col">
-                        <label
-                            :for="`${formId}-contact-name`"
-                            class="text-left font-semibold"
-                        >
-                            Name:
-                        </label>
-                        <input
-                            :id="`${formId}-contact-name`"
-                            v-model.trim="form.name"
-                            class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
-                            placeholder="Name"
-                            type="text"
-                            name="name"
-                            autocomplete="name"
-                            maxlength="100"
-                            minlength="2"
-                            required
-                        />
-                    </div>
-                    <div class="flex w-full flex-col">
-                        <label
-                            :for="`${formId}-contact-phone`"
-                            class="text-left font-semibold"
-                        >
-                            Phone:
-                        </label>
-                        <input
-                            :id="`${formId}-contact-phone`"
-                            v-model.trim="form.phone"
-                            class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
-                            placeholder="Phone"
-                            type="tel"
-                            name="phone"
-                            autocomplete="tel"
-                            maxlength="40"
-                            required
-                        />
-                    </div>
-                </div>
-                <div class="flex w-full flex-col">
-                    <label
-                        :for="`${formId}-contact-email`"
-                        class="text-left font-semibold"
-                    >
-                        Email:
-                    </label>
+    <!-- Both the card and its mobile verification tray stay in this component's layout. -->
+    <div class="w-full max-w-132 min-w-0">
+        <div
+            v-bind="$attrs"
+            data-contact-section
+            class="h-fit w-full max-w-132 overflow-hidden rounded-2xl border-y-3 border-t-gray-900/50 border-b-amber-700/50 bg-slate-100 pt-9 pb-7 text-center text-gray-900 shadow-lg shadow-black/40 sm:pt-16 sm:pb-8"
+        >
+            <!-- Title -->
+            <form
+                class="flex flex-col gap-y-4 px-7"
+                @submit.prevent="submitForm"
+            >
+                <!-- Spam protection: hidden honeypot -->
+                <div class="absolute left-[-9999px]" aria-hidden="true">
+                    <label :for="`${formId}-contact-website`">Website</label>
                     <input
-                        :id="`${formId}-contact-email`"
-                        v-model.trim="form.email"
-                        class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
-                        placeholder="Email"
-                        type="email"
-                        name="email"
-                        autocomplete="email"
-                        maxlength="254"
-                        required
+                        :id="`${formId}-contact-website`"
+                        v-model="form.website"
+                        type="text"
+                        tabindex="-1"
+                        autocomplete="off"
                     />
                 </div>
-            </div>
-            <!-- Property Information -->
-            <div>
-                <label
-                    :for="`${formId}-contact-address`"
-                    class="block text-left font-semibold"
-                >
-                    Property Address (Optional)
-                </label>
-                <input
-                    :id="`${formId}-contact-address`"
-                    v-model.trim="form.address"
-                    class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
-                    placeholder="Type Address Here"
-                    type="text"
-                    name="address"
-                    autocomplete="street-address"
-                    maxlength="200"
-                />
-                <!-- Radio Options -->
-                <div
-                    class="mt-1 flex gap-x-6 text-lg"
-                    role="radiogroup"
-                    aria-label="Property type"
-                    aria-required="true"
-                >
-                    <div class="flex items-center gap-x-2">
+                <!-- Contact Information -->
+                <div class="flex flex-wrap gap-x-4 gap-y-4">
+                    <div class="xs:grid-cols-2 grid w-full grid-cols-1 gap-x-5">
+                        <div class="flex w-full flex-col">
+                            <label
+                                :for="`${formId}-contact-name`"
+                                class="text-left font-semibold"
+                            >
+                                Name:
+                            </label>
+                            <input
+                                :id="`${formId}-contact-name`"
+                                v-model.trim="form.name"
+                                class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
+                                placeholder="Name"
+                                type="text"
+                                name="name"
+                                autocomplete="name"
+                                maxlength="100"
+                                minlength="2"
+                                required
+                            />
+                        </div>
+                        <div class="flex w-full flex-col">
+                            <label
+                                :for="`${formId}-contact-phone`"
+                                class="text-left font-semibold"
+                            >
+                                Phone:
+                            </label>
+                            <input
+                                :id="`${formId}-contact-phone`"
+                                v-model.trim="form.phone"
+                                class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
+                                placeholder="Phone"
+                                type="tel"
+                                name="phone"
+                                autocomplete="tel"
+                                maxlength="40"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div class="flex w-full flex-col">
+                        <label
+                            :for="`${formId}-contact-email`"
+                            class="text-left font-semibold"
+                        >
+                            Email:
+                        </label>
                         <input
-                            :id="`${formId}-property-residential`"
-                            v-model="form.propertyType"
-                            class="appearance-none rounded-2xl border bg-violet-100 p-1.5 outline-1 outline-violet-700 placeholder:opacity-90 checked:bg-green-400 checked:outline-green-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
-                            type="radio"
-                            :name="`${formId}-propertyType`"
-                            value="Residential"
+                            :id="`${formId}-contact-email`"
+                            v-model.trim="form.email"
+                            class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
+                            placeholder="Email"
+                            type="email"
+                            name="email"
+                            autocomplete="email"
+                            maxlength="254"
                             required
                         />
-                        <label
-                            class="text-base"
-                            :for="`${formId}-property-residential`"
-                        >
-                            Residential
-                        </label>
-                    </div>
-                    <div class="flex items-center gap-x-2">
-                        <input
-                            :id="`${formId}-property-commercial`"
-                            v-model="form.propertyType"
-                            class="appearance-none rounded-2xl border bg-violet-100 p-1.5 outline-1 outline-violet-700 placeholder:opacity-90 checked:bg-green-400 checked:outline-green-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
-                            type="radio"
-                            :name="`${formId}-propertyType`"
-                            value="Commercial"
-                            required
-                        />
-                        <label
-                            class="text-base"
-                            :for="`${formId}-property-commercial`"
-                        >
-                            Commercial
-                        </label>
                     </div>
                 </div>
-            </div>
-            <!-- Services -->
-            <div>
-                <div class="text-left font-semibold">Select Your Services</div>
-                <div class="w-full border-t-2 border-violet-400 pb-1"></div>
-                <div
-                    class="xs:grid-cols-2 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3"
-                    role="group"
-                    aria-label="Select your services"
-                    aria-required="true"
-                >
-                    <div
-                        v-for="(service, index) in activeServices"
-                        :key="service.name"
-                        class="mt-2 flex items-center gap-x-2 text-left"
+                <!-- Property Information -->
+                <div>
+                    <label
+                        :for="`${formId}-contact-address`"
+                        class="block text-left font-semibold"
                     >
-                        <input
-                            :id="`${formId}-service-${index}`"
-                            v-model="form.services"
-                            :value="service.name"
-                            class="appearance-none border bg-violet-100 p-1.5 outline-1 outline-violet-700 placeholder:opacity-90 checked:bg-green-400 checked:outline-green-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
-                            type="checkbox"
-                        />
-                        <label
-                            :for="`${formId}-service-${index}`"
-                            class="leading-4"
-                        >
-                            {{ service.name }}
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="w-full border-t-2 border-violet-400 pb-3"></div>
-            <!-- Additional Details -->
-            <div>
-                <label
-                    :for="`${formId}-contact-details`"
-                    class="block text-left font-semibold"
-                >
-                    Additional Details (Optional)
-                </label>
-                <textarea
-                    :id="`${formId}-contact-details`"
-                    v-model.trim="form.details"
-                    class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
-                    placeholder="Please provide anything you believe is important for me to know"
-                    maxlength="3000"
-                />
-            </div>
-            <!-- Cloudflare Turnstile -->
-            <div class="flex w-full justify-center">
-                <div
-                    class="w-full max-w-100 overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
-                    :class="
-                        isTurnstileVisible
-                            ? 'max-h-18.25 opacity-100'
-                            : 'max-h-0 opacity-0'
-                    "
-                >
+                        Property Address (Optional)
+                    </label>
+                    <input
+                        :id="`${formId}-contact-address`"
+                        v-model.trim="form.address"
+                        class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
+                        placeholder="Type Address Here"
+                        type="text"
+                        name="address"
+                        autocomplete="street-address"
+                        maxlength="200"
+                    />
+                    <!-- Radio Options -->
                     <div
-                        class="rounded-xl bg-linear-to-r from-violet-700 via-violet-400 to-amber-500 p-1 shadow-md shadow-violet-950/20"
+                        class="mt-1 flex gap-x-6 text-lg"
+                        role="radiogroup"
+                        aria-label="Property type"
+                        aria-required="true"
                     >
-                        <div
-                            class="h-16.25 overflow-hidden rounded-lg [clip-path:inset(0_round_8px)]"
-                        >
-                            <div ref="turnstileContainer">
-                                <NuxtTurnstile
-                                    ref="turnstile"
-                                    v-model="turnstileToken"
-                                    :options="{
-                                        theme: 'light',
-                                        size: 'flexible',
-                                        appearance: 'interaction-only',
-                                    }"
-                                    class="w-full"
-                                />
-                            </div>
+                        <div class="flex items-center gap-x-2">
+                            <input
+                                :id="`${formId}-property-residential`"
+                                v-model="form.propertyType"
+                                class="appearance-none rounded-2xl border bg-violet-100 p-1.5 outline-1 outline-violet-700 placeholder:opacity-90 checked:bg-green-400 checked:outline-green-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
+                                type="radio"
+                                :name="`${formId}-propertyType`"
+                                value="Residential"
+                                required
+                            />
+                            <label
+                                class="text-base"
+                                :for="`${formId}-property-residential`"
+                            >
+                                Residential
+                            </label>
+                        </div>
+                        <div class="flex items-center gap-x-2">
+                            <input
+                                :id="`${formId}-property-commercial`"
+                                v-model="form.propertyType"
+                                class="appearance-none rounded-2xl border bg-violet-100 p-1.5 outline-1 outline-violet-700 placeholder:opacity-90 checked:bg-green-400 checked:outline-green-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
+                                type="radio"
+                                :name="`${formId}-propertyType`"
+                                value="Commercial"
+                                required
+                            />
+                            <label
+                                class="text-base"
+                                :for="`${formId}-property-commercial`"
+                            >
+                                Commercial
+                            </label>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Submission Feedback -->
-            <p
-                v-if="feedback"
-                role="status"
-                aria-live="polite"
-                class="text-sm font-semibold"
-                :class="submissionSuccess ? 'text-green-700' : 'text-red-600'"
-            >
-                {{ feedback }}
-            </p>
-            <!-- Submit -->
-            <button
-                class="rounded-xl bg-violet-900 p-4 text-lg font-semibold text-white shadow-lg ring-3 shadow-violet-950/80 ring-violet-900 transition-all duration-300 hover:bg-transparent hover:text-green-700 hover:shadow-green-950/80 hover:ring-green-600 active:translate-y-1 active:bg-green-600 active:text-white active:shadow-none disabled:pointer-events-none disabled:cursor-wait disabled:opacity-70 md:text-xl"
-                type="submit"
-                :disabled="isSubmitting"
-                :aria-busy="isSubmitting"
-                :class="
-                    isSubmitting
-                        ? 'bg-green-600 text-white ring-0 hover:bg-green-600 hover:text-white'
-                        : ''
-                "
-            >
-                {{ isSubmitting ? 'Sending Request...' : 'Request a Quote' }}
-            </button>
-            <p class="text-center text-xs text-slate-600">
-                I use your information to respond to your quote request.
-            </p>
-        </form>
+                <!-- Services -->
+                <div>
+                    <div class="text-left font-semibold">
+                        Select Your Services
+                    </div>
+                    <div class="w-full border-t-2 border-violet-400 pb-1"></div>
+                    <div
+                        class="xs:grid-cols-2 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3"
+                        role="group"
+                        aria-label="Select your services"
+                        aria-required="true"
+                    >
+                        <div
+                            v-for="(service, index) in activeServices"
+                            :key="service.name"
+                            class="mt-2 flex items-center gap-x-2 text-left"
+                        >
+                            <input
+                                :id="`${formId}-service-${index}`"
+                                v-model="form.services"
+                                :value="service.name"
+                                class="appearance-none border bg-violet-100 p-1.5 outline-1 outline-violet-700 placeholder:opacity-90 checked:bg-green-400 checked:outline-green-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
+                                type="checkbox"
+                            />
+                            <label
+                                :for="`${formId}-service-${index}`"
+                                class="leading-4"
+                            >
+                                {{ service.name }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full border-t-2 border-violet-400 pb-3"></div>
+                <!-- Additional Details -->
+                <div>
+                    <label
+                        :for="`${formId}-contact-details`"
+                        class="block text-left font-semibold"
+                    >
+                        Additional Details (Optional)
+                    </label>
+                    <textarea
+                        :id="`${formId}-contact-details`"
+                        v-model.trim="form.details"
+                        class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
+                        placeholder="Please provide anything you believe is important for me to know"
+                        maxlength="3000"
+                    />
+                </div>
+                <!-- A single widget stays inside the form on desktop, or moves
+                     directly below this card on mobile (never to document.body). -->
+                <Teleport
+                    defer
+                    :to="`#${formId}-turnstile-drawer`"
+                    :disabled="!mobileTurnstile"
+                >
+                    <div
+                        class="flex w-full justify-center max-[420px]:relative max-[420px]:left-1/2 max-[420px]:w-[max(100%,304px)] max-[420px]:max-w-[calc(100vw-16px)] max-[420px]:-translate-x-1/2"
+                        :class="
+                            mobileTurnstile && isTurnstileVisible
+                                ? 'overflow-hidden rounded-xl border-0 max-[420px]:bg-slate-100 max-[420px]:shadow-lg'
+                                : ''
+                        "
+                    >
+                        <div
+                            class="w-full max-w-100 overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
+                            :class="
+                                isTurnstileVisible
+                                    ? 'max-h-18.25 opacity-100'
+                                    : 'max-h-0 opacity-0'
+                            "
+                        >
+                            <div
+                                class="rounded-xl bg-linear-to-r from-violet-700 via-violet-400 to-amber-500 p-1 shadow-md shadow-violet-950/20 max-[420px]:p-0.5"
+                            >
+                                <div
+                                    class="h-16.25 overflow-hidden rounded-lg [clip-path:inset(0_round_8px)]"
+                                >
+                                    <div ref="turnstileContainer">
+                                        <NuxtTurnstile
+                                            v-if="turnstileReady"
+                                            ref="turnstile"
+                                            v-model="turnstileToken"
+                                            :options="{
+                                                theme: 'light',
+                                                size: 'flexible',
+                                                appearance: 'interaction-only',
+                                            }"
+                                            class="w-full"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Teleport>
+                <!-- Submission Feedback -->
+                <p
+                    v-if="feedback"
+                    role="status"
+                    aria-live="polite"
+                    class="text-sm font-semibold"
+                    :class="
+                        submissionSuccess ? 'text-green-700' : 'text-red-600'
+                    "
+                >
+                    {{ feedback }}
+                </p>
+                <!-- Submit -->
+                <button
+                    class="rounded-xl bg-violet-900 p-4 text-lg font-semibold text-white shadow-lg ring-3 shadow-violet-950/80 ring-violet-900 transition-all duration-300 hover:bg-transparent hover:text-green-700 hover:shadow-green-950/80 hover:ring-green-600 active:translate-y-1 active:bg-green-600 active:text-white active:shadow-none disabled:pointer-events-none disabled:cursor-wait disabled:opacity-70 md:text-xl"
+                    type="submit"
+                    :disabled="isSubmitting"
+                    :aria-busy="isSubmitting"
+                    :class="
+                        isSubmitting
+                            ? 'bg-green-600 text-white ring-0 hover:bg-green-600 hover:text-white'
+                            : ''
+                    "
+                >
+                    {{
+                        isSubmitting ? 'Sending Request...' : 'Request a Quote'
+                    }}
+                </button>
+                <p class="text-center text-xs text-slate-600">
+                    I use your information to respond to your quote request.
+                </p>
+            </form>
+        </div>
+        <!-- An in-flow sibling of the styled card. Never fixed to the viewport or body. -->
+        <div
+            :id="`${formId}-turnstile-drawer`"
+            class="hidden max-[420px]:block"
+        ></div>
     </div>
 </template>
 
@@ -415,4 +470,3 @@ async function submitForm() {
     overflow: hidden;
 }
 </style>
-s
