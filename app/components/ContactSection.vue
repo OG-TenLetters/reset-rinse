@@ -4,7 +4,7 @@ import ContactForm from './ContactForm.vue'
 
 <template>
     <div
-        class="flex flex-col-reverse items-center gap-x-5 px-5 py-20 md:flex-row md:px-10"
+        class="flex flex-col-reverse items-center justify-center gap-x-5 px-5 py-20 md:flex-row md:gap-x-10 md:px-10"
     >
         <div class="">
             <ContactForm />

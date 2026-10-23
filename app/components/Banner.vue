@@ -171,11 +171,12 @@ const scrollToNearestContact = () => {
                         Request a Quote
                     </button>
 
-                    <button
+                    <a
+                        href="tel: +13605531160"
                         class="rounded-lg border-3 border-white/80 bg-black/50 px-3 py-1.5 md:rounded-xl md:px-5 md:py-3 lg:px-6 lg:py-3"
                     >
                         Call Me
-                    </button>
+                    </a>
                 </div>
 
                 <!-- Tags -->

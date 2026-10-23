@@ -1,11 +1,33 @@
 <script setup lang="ts">
 import { ServicesData } from '~/data/services'
 
+const turnstileContainer = ref<HTMLElement | null>(null)
+const isTurnstileVisible = ref(false)
+
+let turnstileObserver: ResizeObserver | undefined
+
+onMounted(() => {
+    const widget = turnstileContainer.value?.firstElementChild
+
+    if (!widget) return
+
+    const updateVisibility = () => {
+        isTurnstileVisible.value = widget.getBoundingClientRect().height > 0
+    }
+
+    turnstileObserver = new ResizeObserver(updateVisibility)
+    turnstileObserver.observe(widget)
+
+    updateVisibility()
+})
+
 const activeServices = computed(() =>
     Object.values(ServicesData).filter((service) => service.active)
 )
 
-// Form data
+onBeforeUnmount(() => {
+    turnstileObserver?.disconnect()
+})
 interface ContactFormData {
     name: string
     phone: string
@@ -16,6 +38,9 @@ interface ContactFormData {
     details: string
     website: string
 }
+
+// Each form instance gets its own IDs and radio group name.
+const formId = useId()
 
 const form = reactive<ContactFormData>({
     name: '',
@@ -28,22 +53,60 @@ const form = reactive<ContactFormData>({
     website: '',
 })
 
-// Submission state
+const turnstileToken = ref('')
+const turnstile = ref<{ reset: () => void } | null>(null)
 const isSubmitting = ref(false)
 const feedback = ref('')
 const submissionSuccess = ref(false)
 
-// Submit form
+// Resend idempotency: retrying unchanged information uses the same key.
+let pendingSubmissionId: string | null = null
+let pendingPayloadSignature = ''
+
 async function submitForm() {
     if (isSubmitting.value) return
 
     feedback.value = ''
     submissionSuccess.value = false
 
-    // Require at least one service
+    const phoneDigits = form.phone.replace(/\D/g, '')
+
+    if (form.name.trim().length < 2) {
+        feedback.value = 'Please enter your name (at least 2 characters).'
+        return
+    }
+    if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+        feedback.value = 'Please enter a valid phone number.'
+        return
+    }
+    if (!['Residential', 'Commercial'].includes(form.propertyType)) {
+        feedback.value = 'Please select Residential or Commercial.'
+        return
+    }
     if (form.services.length === 0) {
         feedback.value = 'Please select at least one service.'
         return
+    }
+    if (!turnstileToken.value) {
+        feedback.value = 'Please complete the security check before submitting.'
+        return
+    }
+
+    const payload = {
+        name: form.name.trim(),
+        phone: form.phone.trim(),
+        email: form.email.trim(),
+        address: form.address.trim(),
+        propertyType: form.propertyType,
+        services: [...form.services],
+        details: form.details.trim(),
+        website: form.website,
+    }
+
+    const signature = JSON.stringify(payload)
+    if (signature !== pendingPayloadSignature || !pendingSubmissionId) {
+        pendingPayloadSignature = signature
+        pendingSubmissionId = crypto.randomUUID()
     }
 
     isSubmitting.value = true
@@ -52,35 +115,42 @@ async function submitForm() {
         await $fetch('/api/contact', {
             method: 'POST',
             body: {
-                name: form.name,
-                phone: form.phone,
-                email: form.email,
-                address: form.address,
-                propertyType: form.propertyType,
-                services: [...form.services],
-                details: form.details,
-                website: form.website,
+                ...payload,
+                submissionId: pendingSubmissionId,
+                turnstileToken: turnstileToken.value,
             },
         })
 
         submissionSuccess.value = true
         feedback.value = 'Your quote request has been submitted successfully!'
 
-        // Clear form after successful submission
-        form.name = ''
-        form.phone = ''
-        form.email = ''
-        form.address = ''
-        form.propertyType = ''
-        form.services = []
-        form.details = ''
-        form.website = ''
+        Object.assign(form, {
+            name: '',
+            phone: '',
+            email: '',
+            address: '',
+            propertyType: '',
+            services: [],
+            details: '',
+            website: '',
+        })
+        pendingSubmissionId = null
+        pendingPayloadSignature = ''
     } catch (error) {
         console.error('Contact form submission failed:', error)
-
-        feedback.value = 'Unable to submit your request. Please try again.'
+        const status = (error as { response?: { status?: number } })?.response
+            ?.status
+        feedback.value =
+            status === 429
+                ? 'Too many requests. Please try again in a few minutes.'
+                : status === 400 || status === 422
+                  ? 'Please review your information and try again.'
+                  : 'Your request could not be sent. Please try again or contact us directly.'
     } finally {
         isSubmitting.value = false
+        // Turnstile tokens are single-use, even if sending fails after validation.
+        turnstileToken.value = ''
+        turnstile.value?.reset()
     }
 }
 </script>
@@ -88,63 +158,55 @@ async function submitForm() {
 <template>
     <div
         data-contact-section
-        class="h-fit w-full rounded-2xl border border-black/10 bg-slate-50 p-4 text-center text-violet-900 shadow-lg shadow-black/40 sm:p-8"
+        class="h-fit w-full max-w-132 overflow-hidden rounded-2xl border-y-3 border-t-gray-900/50 border-b-amber-700/50 bg-slate-100 pt-9 pb-7 text-center text-gray-900 shadow-lg shadow-black/40 sm:pt-16 sm:pb-8"
     >
         <!-- Title -->
-        <h2 class="mb-7 text-2xl font-bold tracking-wide md:text-3xl">
-            Request a Quote
-        </h2>
-
-        <form class="flex flex-col gap-y-4" @submit.prevent="submitForm">
+        <form class="flex flex-col gap-y-4 px-7" @submit.prevent="submitForm">
             <!-- Spam protection: hidden honeypot -->
             <div class="absolute left-[-9999px]" aria-hidden="true">
-                <label for="contact-website">Website</label>
-
+                <label :for="`${formId}-contact-website`">Website</label>
                 <input
-                    id="contact-website"
+                    :id="`${formId}-contact-website`"
                     v-model="form.website"
                     type="text"
                     tabindex="-1"
                     autocomplete="off"
                 />
             </div>
-
             <!-- Contact Information -->
             <div class="flex flex-wrap gap-x-4 gap-y-4">
                 <div class="xs:grid-cols-2 grid w-full grid-cols-1 gap-x-5">
                     <div class="flex w-full flex-col">
                         <label
-                            for="contact-name"
+                            :for="`${formId}-contact-name`"
                             class="text-left font-semibold"
                         >
                             Name:
                         </label>
-
                         <input
-                            id="contact-name"
+                            :id="`${formId}-contact-name`"
                             v-model.trim="form.name"
-                            class="w-full rounded-sm bg-slate-100/50 px-2 py-1 ring-2 ring-violet-800 placeholder:opacity-90"
+                            class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
                             placeholder="Name"
                             type="text"
                             name="name"
                             autocomplete="name"
                             maxlength="100"
+                            minlength="2"
                             required
                         />
                     </div>
-
                     <div class="flex w-full flex-col">
                         <label
-                            for="contact-phone"
+                            :for="`${formId}-contact-phone`"
                             class="text-left font-semibold"
                         >
                             Phone:
                         </label>
-
                         <input
-                            id="contact-phone"
+                            :id="`${formId}-contact-phone`"
                             v-model.trim="form.phone"
-                            class="w-full rounded-sm bg-slate-100/50 px-2 py-1 ring-2 ring-violet-800 placeholder:opacity-90"
+                            class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
                             placeholder="Phone"
                             type="tel"
                             name="phone"
@@ -154,16 +216,17 @@ async function submitForm() {
                         />
                     </div>
                 </div>
-
                 <div class="flex w-full flex-col">
-                    <label for="contact-email" class="text-left font-semibold">
+                    <label
+                        :for="`${formId}-contact-email`"
+                        class="text-left font-semibold"
+                    >
                         Email:
                     </label>
-
                     <input
-                        id="contact-email"
+                        :id="`${formId}-contact-email`"
                         v-model.trim="form.email"
-                        class="w-full rounded-sm bg-slate-100/50 px-2 py-1 ring-2 ring-violet-800 placeholder:opacity-90"
+                        class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
                         placeholder="Email"
                         type="email"
                         name="email"
@@ -173,67 +236,76 @@ async function submitForm() {
                     />
                 </div>
             </div>
-
             <!-- Property Information -->
             <div>
                 <label
-                    for="contact-address"
+                    :for="`${formId}-contact-address`"
                     class="block text-left font-semibold"
                 >
                     Property Address (Optional)
                 </label>
-
                 <input
-                    id="contact-address"
+                    :id="`${formId}-contact-address`"
                     v-model.trim="form.address"
-                    class="w-full rounded-sm bg-slate-100/50 px-2 py-1 ring-2 ring-violet-800 placeholder:opacity-90"
+                    class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
                     placeholder="Type Address Here"
                     type="text"
                     name="address"
                     autocomplete="street-address"
                     maxlength="200"
                 />
-
                 <!-- Radio Options -->
-                <div class="mt-1 flex gap-x-6 text-lg">
+                <div
+                    class="mt-1 flex gap-x-6 text-lg"
+                    role="radiogroup"
+                    aria-label="Property type"
+                    aria-required="true"
+                >
                     <div class="flex items-center gap-x-2">
                         <input
-                            id="property-residential"
+                            :id="`${formId}-property-residential`"
                             v-model="form.propertyType"
-                            class="bg-slate-100/50 px-2 py-1 placeholder:opacity-90"
+                            class="appearance-none rounded-2xl border bg-violet-100 p-1.5 outline-1 outline-violet-700 placeholder:opacity-90 checked:bg-green-400 checked:outline-green-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
                             type="radio"
-                            name="propertyType"
+                            :name="`${formId}-propertyType`"
                             value="Residential"
+                            required
                         />
-
-                        <label class="text-base" for="property-residential">
+                        <label
+                            class="text-base"
+                            :for="`${formId}-property-residential`"
+                        >
                             Residential
                         </label>
                     </div>
-
                     <div class="flex items-center gap-x-2">
                         <input
-                            id="property-commercial"
+                            :id="`${formId}-property-commercial`"
                             v-model="form.propertyType"
-                            class="bg-slate-100/50 px-2 py-1 placeholder:opacity-90"
+                            class="appearance-none rounded-2xl border bg-violet-100 p-1.5 outline-1 outline-violet-700 placeholder:opacity-90 checked:bg-green-400 checked:outline-green-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
                             type="radio"
-                            name="propertyType"
+                            :name="`${formId}-propertyType`"
                             value="Commercial"
+                            required
                         />
-
-                        <label class="text-base" for="property-commercial">
+                        <label
+                            class="text-base"
+                            :for="`${formId}-property-commercial`"
+                        >
                             Commercial
                         </label>
                     </div>
                 </div>
             </div>
-
             <!-- Services -->
             <div>
                 <div class="text-left font-semibold">Select Your Services</div>
-
+                <div class="w-full border-t-2 border-violet-400 pb-1"></div>
                 <div
                     class="xs:grid-cols-2 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3"
+                    role="group"
+                    aria-label="Select your services"
+                    aria-required="true"
                 >
                     <div
                         v-for="(service, index) in activeServices"
@@ -241,38 +313,70 @@ async function submitForm() {
                         class="mt-2 flex items-center gap-x-2 text-left"
                     >
                         <input
-                            :id="`service-${index}`"
+                            :id="`${formId}-service-${index}`"
                             v-model="form.services"
                             :value="service.name"
-                            class="bg-slate-100/50 px-2 py-1 placeholder:opacity-90"
+                            class="appearance-none border bg-violet-100 p-1.5 outline-1 outline-violet-700 placeholder:opacity-90 checked:bg-green-400 checked:outline-green-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
                             type="checkbox"
                         />
-
-                        <label :for="`service-${index}`" class="leading-4">
+                        <label
+                            :for="`${formId}-service-${index}`"
+                            class="leading-4"
+                        >
                             {{ service.name }}
                         </label>
                     </div>
                 </div>
             </div>
-
+            <div class="w-full border-t-2 border-violet-400 pb-3"></div>
             <!-- Additional Details -->
             <div>
                 <label
-                    for="contact-details"
+                    :for="`${formId}-contact-details`"
                     class="block text-left font-semibold"
                 >
                     Additional Details (Optional)
                 </label>
-
                 <textarea
-                    id="contact-details"
+                    :id="`${formId}-contact-details`"
                     v-model.trim="form.details"
-                    class="w-full rounded-sm bg-slate-100/50 px-2 py-1 ring-2 ring-violet-800 placeholder:opacity-90"
+                    class="w-full rounded-sm border-none bg-slate-100/50 px-2 py-1 ring-2 ring-zinc-900 outline-none placeholder:opacity-90 focus:ring-3 focus:ring-green-500"
                     placeholder="Please provide anything you believe is important for me to know"
                     maxlength="3000"
                 />
             </div>
-
+            <!-- Cloudflare Turnstile -->
+            <div class="flex w-full justify-center">
+                <div
+                    class="w-full max-w-100 overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
+                    :class="
+                        isTurnstileVisible
+                            ? 'max-h-18.25 opacity-100'
+                            : 'max-h-0 opacity-0'
+                    "
+                >
+                    <div
+                        class="rounded-xl bg-linear-to-r from-violet-700 via-violet-400 to-amber-500 p-1 shadow-md shadow-violet-950/20"
+                    >
+                        <div
+                            class="h-16.25 overflow-hidden rounded-lg [clip-path:inset(0_round_8px)]"
+                        >
+                            <div ref="turnstileContainer">
+                                <NuxtTurnstile
+                                    ref="turnstile"
+                                    v-model="turnstileToken"
+                                    :options="{
+                                        theme: 'light',
+                                        size: 'flexible',
+                                        appearance: 'interaction-only',
+                                    }"
+                                    class="w-full"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Submission Feedback -->
             <p
                 v-if="feedback"
@@ -283,16 +387,32 @@ async function submitForm() {
             >
                 {{ feedback }}
             </p>
-
             <!-- Submit -->
             <button
-                class="rounded-xl bg-violet-900 p-4 text-lg font-semibold text-white ring-2 ring-violet-900 transition-colors duration-300 hover:bg-transparent hover:text-violet-900 md:text-xl"
+                class="rounded-xl bg-violet-900 p-4 text-lg font-semibold text-white shadow-lg ring-3 shadow-violet-950/80 ring-violet-900 transition-all duration-300 hover:bg-transparent hover:text-green-700 hover:shadow-green-950/80 hover:ring-green-600 active:translate-y-1 active:bg-green-600 active:text-white active:shadow-none disabled:pointer-events-none disabled:cursor-wait disabled:opacity-70 md:text-xl"
                 type="submit"
                 :disabled="isSubmitting"
                 :aria-busy="isSubmitting"
+                :class="
+                    isSubmitting
+                        ? 'bg-green-600 text-white ring-0 hover:bg-green-600 hover:text-white'
+                        : ''
+                "
             >
                 {{ isSubmitting ? 'Sending Request...' : 'Request a Quote' }}
             </button>
+            <p class="text-center text-xs text-slate-600">
+                I use your information to respond to your quote request.
+            </p>
         </form>
     </div>
 </template>
+
+<style scoped>
+.turnstile-wrapper :deep(iframe) {
+    border-radius: 20px;
+    display: block;
+    overflow: hidden;
+}
+</style>
+s

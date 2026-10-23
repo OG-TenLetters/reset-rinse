@@ -10,10 +10,12 @@ import SectionTitle from '../SectionTitle.vue'
                 title="about me and my mission"
                 details=""
             />
-            <div class="mt-10 flex flex-col items-center md:mt-20 md:flex-row">
+            <div
+                class="mt-10 flex flex-col items-center gap-x-5 md:mt-20 md:flex-row md:gap-x-10"
+            >
                 <!-- About Me Image -->
                 <div
-                    class="xs:float-left relative mr-5 mb-4 block w-3/5 overflow-hidden rounded-xl shadow-lg shadow-black/50 md:flex md:w-4/5 md:rounded-3xl"
+                    class="xs:float-left relative block w-3/5 overflow-hidden rounded-xl shadow-lg shadow-black/50 md:flex md:w-4/5 md:rounded-3xl"
                 >
                     <NuxtImg
                         width="480"

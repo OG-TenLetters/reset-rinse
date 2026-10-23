@@ -74,7 +74,7 @@ const scrollToNearestContact = () => {
     <nav
         data-navbar
         aria-label="Primary"
-        class="xs:px-4 flex items-center justify-between rounded-2xl bg-gray-200 py-1 pr-2 pl-0 shadow-md shadow-black/50 md:px-10 md:py-3"
+        class="xs:px-4 flex items-center justify-between rounded-2xl bg-slate-50 py-1 pr-2 pl-0 shadow-md shadow-black/50 md:px-10 md:py-3"
     >
         <BrandStamp class="xs:scale-75 scale-60 md:scale-100" />
 

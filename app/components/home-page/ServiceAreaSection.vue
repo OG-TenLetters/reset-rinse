@@ -31,7 +31,7 @@ function selectLocation(slug: string) {
             details=""
         />
         <div
-            class="mt-10 flex w-full flex-col items-center gap-8 md:mt-20 md:flex-row"
+            class="mt-10 flex w-full flex-col items-center gap-5 md:mt-20 md:flex-row md:gap-10"
         >
             <!-- Map Content -->
 

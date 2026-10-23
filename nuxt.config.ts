@@ -5,7 +5,15 @@ export default defineNuxtConfig({
     nitro: {
         compressPublicAssets: true,
     },
-    modules: ['gooey-toast-vue/nuxt', '@nuxt/image', '@nuxt/ui'],
+    modules: [
+        'gooey-toast-vue/nuxt',
+        '@nuxt/image',
+        '@nuxt/ui',
+        '@nuxtjs/turnstile',
+    ],
+    turnstile: {
+        siteKey: '',
+    },
     compatibilityDate: '2025-07-15',
     devtools: { enabled: true },
     css: ['~/assets/css/main.css'],
@@ -14,5 +22,8 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         resendApiKey: '',
+        turnstile: { secretKey: '' },
+        upstashRedisRestUrl: '',
+        upstashRedisRestToken: '',
     },
 })

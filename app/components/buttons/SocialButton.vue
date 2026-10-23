@@ -1,7 +1,4 @@
-"
 <script setup lang="ts">
-import YelpIcon from '../icons/Yelp.vue'
-
 const socialLibary = {
     yelp: {
         name: 'yelp',
@@ -35,8 +32,17 @@ const socialLibary = {
     },
 }
 
+const hoverColors = {
+    violet: 'hover:text-violet-200 hover:border-violet-400',
+    blue: 'hover:text-blue-200 hover:border-blue-400',
+    pink: 'hover:text-pink-200 hover:border-pink-400',
+    green: 'hover:text-green-200 hover:border-green-400',
+    amber: 'hover:text-amber-300 hover:border-amber-700',
+}
+
 const props = defineProps<{
     social: keyof typeof socialLibary
+    hoverColor: keyof typeof hoverColors
 }>()
 
 const selectdSocial = socialLibary[props.social]
@@ -44,7 +50,8 @@ const selectdSocial = socialLibary[props.social]
 
 <template>
     <a
-        class="inline-flex size-6 items-center justify-center rounded-full border-2 border-white bg-amber-600 text-amber-200 transition-colors duration-150 hover:border-green-400 hover:text-green-200"
+        class="inline-flex size-6 items-center justify-center rounded-full border-2 border-white bg-amber-600 text-amber-200 transition-colors duration-150"
+        :class="hoverColors[hoverColor]"
         :href="selectdSocial.link"
         target="_blank"
         :aria-label="`Checkout our ${selectdSocial.name} page!`"
