@@ -1,9 +1,11 @@
+import { track } from '@vercel/analytics/server'
+
 const validSources = ['car', 'business-card', 'door-hanger', 'fridge']
 
-export default defineEventHandler((event) => {
+export default defineEventHandler(async (event) => {
     const source = getRouterParam(event, 'source')
 
-    // Validate the QR source
+    // Validate QR source
     if (!source || !validSources.includes(source)) {
         throw createError({
             statusCode: 404,
@@ -11,21 +13,21 @@ export default defineEventHandler((event) => {
         })
     }
 
-    // Access Cloudflare Analytics Engine
-    const analytics = event.context.cloudflare?.env?.QR_ANALYTICS
-
-    // Record the QR request
-    if (analytics) {
-        analytics.writeDataPoint({
-            blobs: [source],
-            doubles: [1],
-        })
+    // Record QR scan with Vercel Analytics
+    if (!import.meta.dev) {
+        try {
+            await track('QR Scan', {
+                source,
+            })
+        } catch (error) {
+            console.error('QR analytics failed:', error)
+        }
     }
 
-    // Prevent caching the redirect
+    // Prevent caching
     setResponseHeader(event, 'Cache-Control', 'no-store')
 
-    // Redirect to homepage with tracking parameters
+    // Redirect with tracking parameters
     return sendRedirect(
         event,
         `/?utm_source=${source}&utm_medium=qr&utm_campaign=offline`,
