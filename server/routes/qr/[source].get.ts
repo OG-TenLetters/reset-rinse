@@ -13,8 +13,8 @@ export default defineEventHandler(async (event) => {
         })
     }
 
-    // Record QR scan with Vercel Analytics
-    if (!import.meta.dev) {
+    // Inside your event handler:
+    if (getRequestURL(event).hostname === 'resetrinse.com') {
         try {
             await track('QR Scan', {
                 source,
@@ -23,7 +23,6 @@ export default defineEventHandler(async (event) => {
             console.error('QR analytics failed:', error)
         }
     }
-
     // Prevent caching
     setResponseHeader(event, 'Cache-Control', 'no-store')
 
