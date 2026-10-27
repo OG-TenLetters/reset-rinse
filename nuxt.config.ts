@@ -4,12 +4,19 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
     nitro: {
         compressPublicAssets: true,
+        preset: "cloudflare_module",
+
+        cloudflare: {
+            deployConfig: true,
+            nodeCompat: true
+        }
     },
     modules: [
         'gooey-toast-vue/nuxt',
         '@nuxt/image',
         '@nuxt/ui',
         '@nuxtjs/turnstile',
+        "nitro-cloudflare-dev"
     ],
     turnstile: {
         siteKey: '',

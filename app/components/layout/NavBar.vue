@@ -5,6 +5,16 @@ import { ServicesData } from '~/data/services'
 
 const servicesOpen = ref(false)
 const servicesMenu = useTemplateRef('servicesMenu')
+const servicesTrigger = useTemplateRef<HTMLButtonElement>('servicesTrigger')
+const servicesList = useTemplateRef<HTMLUListElement>('servicesList')
+
+function hideServices() {
+    if (servicesList.value?.contains(document.activeElement)) {
+        servicesTrigger.value?.focus()
+    }
+
+    servicesOpen.value = false
+}
 
 let closeTimer: ReturnType<typeof setTimeout>
 
@@ -17,18 +27,13 @@ function closeServices() {
     clearTimeout(closeTimer)
 
     closeTimer = setTimeout(() => {
-        servicesOpen.value = false
+        hideServices()
     }, 600)
 }
 
 function instantCloseServices() {
     clearTimeout(closeTimer)
-    servicesOpen.value = false
-}
-
-function toggleServices() {
-    clearTimeout(closeTimer)
-    servicesOpen.value = !servicesOpen.value
+    hideServices()
 }
 
 onClickOutside(servicesMenu, () => {
@@ -90,6 +95,7 @@ const scrollToNearestContact = () => {
                 @keydown.esc="instantCloseServices"
             >
                 <button
+                    ref="servicesTrigger"
                     type="button"
                     :aria-expanded="servicesOpen"
                     aria-haspopup="true"
@@ -102,8 +108,8 @@ const scrollToNearestContact = () => {
 
                 <!-- Services Dropdown -->
                 <ul
+                    ref="servicesList"
                     :inert="!servicesOpen"
-                    :aria-hidden="!servicesOpen"
                     :class="
                         servicesOpen
                             ? 'pointer-events-auto scale-y-100'
