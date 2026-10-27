@@ -1,4 +1,4 @@
-const validSources = ['car', 'business-card', 'door-hanger']
+const validSources = ['car', 'business-card', 'door-hanger', 'fridge']
 
 export default defineEventHandler((event) => {
     const source = getRouterParam(event, 'source')
