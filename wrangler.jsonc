@@ -19,5 +19,6 @@
     "assets": {
         "binding": "ASSETS",
         "directory": "./.output/public/",
+        "run_worker_first": ["/qr/*"],
     },
 }
