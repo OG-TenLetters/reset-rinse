@@ -58,15 +58,22 @@ import SectionTitle from '../SectionTitle.vue'
                         <span
                             class="font-semibold whitespace-nowrap text-violet-950 md:hidden"
                             >Hi! I'm Jadon.</span
-                        >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Necessitatibus ipsum tempore velit hic doloremque,
-                        possimus minus recusandae fuga praesentium ratione
-                        assumenda vero tenetur provident est obcaecati Lorem
-                        ipsum, dolor sit amet consectetur adipisicing elit.
-                        Harum veniam doloribus deleniti similique at rem
-                        corporis sunt ut temporibus culpa. Voluptatem recusandae
-                        sint eveniet unde hic eos voluptas. Libero, sit.
+                        >I'm the owner of Reset Rinse - Property Care, a locally
+                        owned business serving Clark County, Washington. I am a
+                        self-directed individual that, despite life's hardships,
+                        have found a way to combine my skills of programming,
+                        communication, hands-on attention to detail, and
+                        continous improvement. I started Reset Rinse with a
+                        simple goal: to provide homeowners with reliable,
+                        quality property care without the hassle. I believe
+                        maintaining your home shouldn't be stressful, and
+                        finding someone you can trust to take care of it
+                        shouldn't be either. My approach is straightforward:
+                        communicate clearly, provide the correct information,
+                        treat every property with respect, and put genuine
+                        effort into every job. Whether you're looking for
+                        routine maintenance or a much-needed refresh, I'm here
+                        to help give your property the reset it deserves!
                     </p>
                 </div>
             </div>

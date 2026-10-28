@@ -83,7 +83,24 @@ html {
     }
 }
 
+@theme static {
+    --font-sans: 'DM Sans', sans-serif;
+    --font-display: 'Outfit', sans-serif;
+}
+
 @theme {
     --animate-wiggle: wiggle 1.65s ease-in-out infinite;
     --breakpoint-xs: 30rem;
+}
+
+body {
+    @apply font-sans;
+}
+
+.contact-font {
+    @apply font-display;
+}
+
+.main-font {
+    @apply font-sans;
 }

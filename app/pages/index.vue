@@ -23,7 +23,7 @@ import ServiceSection from '~/components/home-page/ServiceSection.vue'
         </p>
     </div>
     <ServiceSection />
-    <TestimonialsSection />
+    <!-- <TestimonialsSection /> -->
     <AboutMeSection />
     <ServiceAreaSection />
     <ContactSection />

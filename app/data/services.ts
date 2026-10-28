@@ -36,10 +36,10 @@ export interface ServiceData {
         card: string
         hero: string
         gallery: string[]
-        beforeAfter: {
+        beforeAfter?: {
             before: ServiceImage
             after: ServiceImage
-            // Keep this true while using sample pictures, not genuine project results.
+            // Optional until genuine before-and-after photos are available.
             placeholder: boolean
         }
     }
@@ -86,24 +86,12 @@ export const ServicesData = {
         ],
 
         images: {
-            card: '/test-images/test-5.jpg',
-            hero: '/test-images/test-1.jpg',
+            card: '/images/WindowCleaningImage.jpeg',
+            hero: '/images/CleanWindowsViewImage.jpeg',
             gallery: [
-                '/test-images/test-1.jpg',
-                '/test-images/test-2.jpg',
-                '/test-images/test-3.jpg',
+                '/images/CleanWindowsViewImage.jpeg',
+                '/images/WindowCleaningImage.jpeg',
             ],
-            beforeAfter: {
-                before: {
-                    src: '/test-images/test-1.jpg',
-                    alt: 'Sample placeholder before image for window cleaning',
-                },
-                after: {
-                    src: '/test-images/test-2.jpg',
-                    alt: 'Sample placeholder after image for window cleaning',
-                },
-                placeholder: true,
-            },
         },
     },
 
@@ -147,24 +135,12 @@ export const ServicesData = {
         ],
 
         images: {
-            card: '/test-images/test-6.jpg',
-            hero: '/test-images/test-2.jpg',
+            card: '/images/ClearGutter.jpeg',
+            hero: '/images/ClearGutter.jpeg',
             gallery: [
-                '/test-images/test-2.jpg',
-                '/test-images/test-3.jpg',
-                '/test-images/test-4.jpg',
+                '/images/ClearGutter.jpeg',
+                '/images/GutterCleaningAccident.jpeg',
             ],
-            beforeAfter: {
-                before: {
-                    src: '/test-images/test-2.jpg',
-                    alt: 'Sample placeholder before image for gutter cleaning',
-                },
-                after: {
-                    src: '/test-images/test-3.jpg',
-                    alt: 'Sample placeholder after image for gutter cleaning',
-                },
-                placeholder: true,
-            },
         },
     },
 
@@ -208,24 +184,13 @@ export const ServicesData = {
         ],
 
         images: {
-            card: '/test-images/test-3.jpg',
-            hero: '/test-images/test-3.jpg',
+            card: '/images/PressureWashingImage.jpeg',
+            hero: '/images/PressureWashingHero.jpeg',
             gallery: [
-                '/test-images/test-3.jpg',
-                '/test-images/test-4.jpg',
-                '/test-images/test-5.jpg',
+                '/images/PressureWashingHero.jpeg',
+                '/images/PressureWashingImage.jpeg',
+                '/images/SidingWashingImage.jpeg',
             ],
-            beforeAfter: {
-                before: {
-                    src: '/test-images/test-3.jpg',
-                    alt: 'Sample placeholder before image for pressure and soft washing',
-                },
-                after: {
-                    src: '/test-images/test-4.jpg',
-                    alt: 'Sample placeholder after image for pressure and soft washing',
-                },
-                placeholder: true,
-            },
         },
     },
 
@@ -269,24 +234,9 @@ export const ServicesData = {
         ],
 
         images: {
-            card: '/test-images/test-4.jpg',
-            hero: '/test-images/test-4.jpg',
-            gallery: [
-                '/test-images/test-4.jpg',
-                '/test-images/test-5.jpg',
-                '/test-images/test-6.jpg',
-            ],
-            beforeAfter: {
-                before: {
-                    src: '/test-images/test-4.jpg',
-                    alt: 'Sample placeholder before image for concrete cleaning',
-                },
-                after: {
-                    src: '/test-images/test-5.jpg',
-                    alt: 'Sample placeholder after image for concrete cleaning',
-                },
-                placeholder: true,
-            },
+            card: '/images/ConcreteWashingImage.jpeg',
+            hero: '/images/ConcreteWashingImage.jpeg',
+            gallery: ['/images/ConcreteWashingImage.jpeg'],
         },
     },
 
@@ -330,31 +280,19 @@ export const ServicesData = {
         ],
 
         images: {
-            card: '/test-images/test-2.jpg',
-            hero: '/test-images/test-5.jpg',
+            card: '/images/MossRoofCleanImage.jpeg',
+            hero: '/images/MossRoofCleanImage.jpeg',
             gallery: [
-                '/test-images/test-5.jpg',
-                '/test-images/test-6.jpg',
-                '/test-images/test-1.jpg',
+                '/images/MossRoofCleanImage.jpeg',
+                '/images/MosRoofCleanAltImage.jpeg',
             ],
-            beforeAfter: {
-                before: {
-                    src: '/test-images/test-5.jpg',
-                    alt: 'Sample placeholder before image for roof moss treatment',
-                },
-                after: {
-                    src: '/test-images/test-6.jpg',
-                    alt: 'Sample placeholder after image for roof moss treatment',
-                },
-                placeholder: true,
-            },
         },
     },
 
     holidayLights: {
         name: 'Holiday Lights',
         to: '/holiday-lights',
-        active: true,
+        active: false,
         detailsHeading: 'A Thoughtful Exterior Lighting Display',
         highlights: [
             'Rooflines & architectural details',
@@ -398,17 +336,6 @@ export const ServicesData = {
                 '/test-images/test-6.jpg',
                 '/test-images/test-1.jpg',
             ],
-            beforeAfter: {
-                before: {
-                    src: '/test-images/test-5.jpg',
-                    alt: 'Sample placeholder before image for holiday light installation',
-                },
-                after: {
-                    src: '/test-images/test-6.jpg',
-                    alt: 'Sample placeholder after image for holiday light installation',
-                },
-                placeholder: true,
-            },
         },
     },
 } satisfies Record<string, ServiceData>

@@ -187,7 +187,7 @@ async function submitForm() {
         >
             <!-- Title -->
             <form
-                class="flex flex-col gap-y-4 px-7"
+                class="contact-font flex flex-col gap-y-4 px-7"
                 @submit.prevent="submitForm"
             >
                 <!-- Spam protection: hidden honeypot -->
@@ -436,7 +436,7 @@ async function submitForm() {
                 </p>
                 <!-- Submit -->
                 <button
-                    class="rounded-xl bg-violet-900 p-4 text-lg font-semibold text-white shadow-lg ring-3 shadow-violet-950/80 ring-violet-900 transition-all duration-300 hover:bg-transparent hover:text-green-700 hover:shadow-green-950/80 hover:ring-green-600 active:translate-y-1 active:bg-green-600 active:text-white active:shadow-none disabled:pointer-events-none disabled:cursor-wait disabled:opacity-70 md:text-xl"
+                    class="main-font rounded-xl bg-violet-900 p-4 text-lg font-semibold text-white shadow-lg ring-3 shadow-violet-950/80 ring-violet-900 transition-all duration-300 hover:bg-transparent hover:text-green-700 hover:shadow-green-950/80 hover:ring-green-600 active:translate-y-1 active:bg-green-600 active:text-white active:shadow-none disabled:pointer-events-none disabled:cursor-wait disabled:opacity-70 md:text-xl"
                     type="submit"
                     :disabled="isSubmitting"
                     :aria-busy="isSubmitting"

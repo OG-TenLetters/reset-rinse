@@ -8,6 +8,10 @@ const servicesMenu = useTemplateRef('servicesMenu')
 const servicesTrigger = useTemplateRef<HTMLButtonElement>('servicesTrigger')
 const servicesList = useTemplateRef<HTMLUListElement>('servicesList')
 
+const activeServices = computed(() =>
+    Object.values(ServicesData).filter((service) => service.active)
+)
+
 function hideServices() {
     if (servicesList.value?.contains(document.activeElement)) {
         servicesTrigger.value?.focus()
@@ -118,7 +122,7 @@ const scrollToNearestContact = () => {
                     class="absolute z-30 flex origin-top flex-col text-xs font-semibold whitespace-nowrap transition-transform duration-300 sm:text-sm"
                 >
                     <li
-                        v-for="serviceLink in ServicesData"
+                        v-for="serviceLink in activeServices"
                         :key="serviceLink.to"
                         class="xs:text-base bg-slate-950/70 text-sm tracking-wide text-slate-100 backdrop-blur-sm transition-colors duration-150 first:rounded-tr-lg first:pt-1 last:rounded-b-lg last:pb-4 hover:bg-violet-500/60 hover:text-white sm:text-lg sm:first:rounded-tr-xl sm:first:pt-2 sm:last:rounded-b-xl sm:last:pb-6"
                     >

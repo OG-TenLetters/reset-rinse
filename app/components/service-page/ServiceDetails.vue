@@ -11,7 +11,9 @@ defineProps<{ service: ServiceData }>()
         :aria-labelledby="`details-${service.to.slice(1)}`"
     >
         <div>
-            <p class="mb-2 text-sm font-semibold tracking-wide text-violet-700 uppercase">
+            <p
+                class="mb-2 text-sm font-semibold tracking-wide text-violet-700 uppercase"
+            >
                 About the Service
             </p>
             <h2
@@ -51,10 +53,24 @@ defineProps<{ service: ServiceData }>()
 
         <div class="w-full min-w-0 lg:pt-8">
             <BeforeAfterSlider
+                v-if="service.images.beforeAfter"
                 :before="service.images.beforeAfter.before"
                 :after="service.images.beforeAfter.after"
                 :placeholder="service.images.beforeAfter.placeholder"
                 :label="`${service.name} before and after image comparison`"
+            />
+
+            <!-- Fallback Image -->
+            <NuxtImg
+                v-else
+                :src="service.images.gallery[1] ?? service.images.hero"
+                :alt="`${service.name} service photo`"
+                width="1000"
+                height="750"
+                format="webp"
+                quality="85"
+                loading="lazy"
+                class="aspect-4/3 w-full rounded-2xl object-cover shadow-xl shadow-gray-950/25"
             />
         </div>
     </section>
