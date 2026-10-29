@@ -1,16 +1,15 @@
 <script setup lang="ts">
 defineOptions({ inheritAttrs: false })
-
 import { ServicesData } from '~/data/services'
 
+// Temporary switch. Enable again after restoring server-side verification.
+const turnstileEnabled = false
 const turnstileContainer = ref<HTMLElement | null>(null)
 const isTurnstileVisible = ref(false)
 const mobileTurnstile = ref(false)
 const turnstileReady = ref(false)
-
 let turnstileObserver: ResizeObserver | undefined
 let mobileBreakpoint: MediaQueryList | undefined
-
 function onBreakpointChange(event: MediaQueryListEvent) {
     mobileTurnstile.value = event.matches
     // If the viewport crosses 420px, the iframe changes its container.
@@ -18,34 +17,28 @@ function onBreakpointChange(event: MediaQueryListEvent) {
     turnstileToken.value = ''
     nextTick(() => turnstile.value?.reset())
 }
-
 onMounted(() => {
+    if (!turnstileEnabled) return
     mobileBreakpoint = window.matchMedia('(max-width: 420px)')
     mobileTurnstile.value = mobileBreakpoint.matches
     mobileBreakpoint.addEventListener('change', onBreakpointChange)
-
     // Mount only after choosing the initial location, so the iframe is not
     // moved immediately after its first render on phones.
     turnstileReady.value = true
-
     const container = turnstileContainer.value
     if (!container) return
-
     const updateVisibility = () => {
         isTurnstileVisible.value =
             (container.firstElementChild?.getBoundingClientRect().height ?? 0) >
             0
     }
-
     turnstileObserver = new ResizeObserver(updateVisibility)
     turnstileObserver.observe(container)
     updateVisibility()
 })
-
 const activeServices = computed(() =>
     Object.values(ServicesData).filter((service) => service.active)
 )
-
 onBeforeUnmount(() => {
     turnstileObserver?.disconnect()
     mobileBreakpoint?.removeEventListener('change', onBreakpointChange)
@@ -60,10 +53,8 @@ interface ContactFormData {
     details: string
     website: string
 }
-
 // Each form instance gets its own IDs and radio group name.
 const formId = useId()
-
 const form = reactive<ContactFormData>({
     name: '',
     phone: '',
@@ -74,25 +65,19 @@ const form = reactive<ContactFormData>({
     details: '',
     website: '',
 })
-
 const turnstileToken = ref('')
 const turnstile = ref<{ reset: () => void } | null>(null)
 const isSubmitting = ref(false)
 const feedback = ref('')
 const submissionSuccess = ref(false)
-
 // Resend idempotency: retrying unchanged information uses the same key.
 let pendingSubmissionId: string | null = null
 let pendingPayloadSignature = ''
-
 async function submitForm() {
     if (isSubmitting.value) return
-
     feedback.value = ''
     submissionSuccess.value = false
-
     const phoneDigits = form.phone.replace(/\D/g, '')
-
     if (form.name.trim().length < 2) {
         feedback.value = 'Please enter your name (at least 2 characters).'
         return
@@ -109,11 +94,10 @@ async function submitForm() {
         feedback.value = 'Please select at least one service.'
         return
     }
-    if (!turnstileToken.value) {
+    if (turnstileEnabled && !turnstileToken.value) {
         feedback.value = 'Please complete the security check before submitting.'
         return
     }
-
     const payload = {
         name: form.name.trim(),
         phone: form.phone.trim(),
@@ -124,28 +108,23 @@ async function submitForm() {
         details: form.details.trim(),
         website: form.website,
     }
-
     const signature = JSON.stringify(payload)
     if (signature !== pendingPayloadSignature || !pendingSubmissionId) {
         pendingPayloadSignature = signature
         pendingSubmissionId = crypto.randomUUID()
     }
-
     isSubmitting.value = true
-
     try {
         await $fetch('/api/contact', {
             method: 'POST',
             body: {
                 ...payload,
                 submissionId: pendingSubmissionId,
-                turnstileToken: turnstileToken.value,
+                ...(turnstileEnabled ? { turnstileToken: turnstileToken.value } : {}),
             },
         })
-
         submissionSuccess.value = true
         feedback.value = 'Your quote request has been submitted successfully!'
-
         Object.assign(form, {
             name: '',
             phone: '',
@@ -170,13 +149,14 @@ async function submitForm() {
                   : 'Your request could not be sent. Please try again or contact us directly.'
     } finally {
         isSubmitting.value = false
-        // Turnstile tokens are single-use, even if sending fails after validation.
-        turnstileToken.value = ''
-        turnstile.value?.reset()
+        if (turnstileEnabled) {
+            // Turnstile tokens are single-use, even if sending fails after validation.
+            turnstileToken.value = ''
+            turnstile.value?.reset()
+        }
     }
 }
 </script>
-
 <template>
     <!-- Both the card and its mobile verification tray stay in this component's layout. -->
     <div class="w-full max-w-132 min-w-0">
@@ -378,6 +358,7 @@ async function submitForm() {
                 <!-- A single widget stays inside the form on desktop, or moves
                      directly below this card on mobile (never to document.body). -->
                 <Teleport
+                    v-if="turnstileEnabled"
                     defer
                     :to="`#${formId}-turnstile-drawer`"
                     :disabled="!mobileTurnstile"
@@ -462,7 +443,6 @@ async function submitForm() {
         ></div>
     </div>
 </template>
-
 <style scoped>
 .turnstile-wrapper :deep(iframe) {
     border-radius: 20px;

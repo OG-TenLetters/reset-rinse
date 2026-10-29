@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import BrandStamp from '~/components/BrandStamp.vue'
+import RRMobileMenu from '~/components/layout/RRMobileMenu.vue'
 import { onClickOutside } from '@vueuse/core'
 import { ServicesData } from '~/data/services'
 
 const servicesOpen = ref(false)
+const mobileMenuOpen = ref(false)
 const servicesMenu = useTemplateRef('servicesMenu')
 const servicesTrigger = useTemplateRef<HTMLButtonElement>('servicesTrigger')
 const servicesList = useTemplateRef<HTMLUListElement>('servicesList')
@@ -63,9 +64,10 @@ const scrollToNearestContact = () => {
     })[0]
 
     if (nearest) {
+        // ContactBar + NavBar are siblings in the same fixed header.
+        const navbar = document.querySelector<HTMLElement>('[data-navbar]')
         const navbarHeight =
-            document.querySelector<HTMLElement>('[data-navbar]')
-                ?.offsetHeight ?? 0
+            navbar?.parentElement?.offsetHeight ?? navbar?.offsetHeight ?? 0
 
         window.scrollTo({
             top:
@@ -83,13 +85,50 @@ const scrollToNearestContact = () => {
     <nav
         data-navbar
         aria-label="Primary"
-        class="xs:px-4 flex items-center justify-between rounded-2xl bg-slate-50 py-1 pr-2 pl-0 shadow-md shadow-black/50 md:px-10 md:py-3"
+        class="relative isolate flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-2 shadow-md shadow-black/50 sm:py-4 md:px-10 md:py-6"
     >
-        <BrandStamp class="xs:scale-75 scale-60 md:scale-100" />
+        <div class="flex items-center gap-x-4">
+            <!-- Original Anithon-inspired expanding mobile menu. -->
+            <RRMobileMenu
+                v-model:open="mobileMenuOpen"
+                @contact="scrollToNearestContact"
+            />
+
+            <!-- Both logos use the same exact box; the mobile variant crossfades over it. -->
+            <NuxtLink
+                to="/"
+                aria-label="Reset Rinse home"
+                class="relative z-50 block w-full max-w-35 lg:max-w-40"
+                @click="mobileMenuOpen = false"
+            >
+                <!-- Original light-navbar logo. -->
+                <NuxtImg
+                    src="/logo/ResetRinseWebsiteProto.png"
+                    alt="Reset Rinse Property Care"
+                    class="block h-auto w-full transition-opacity duration-600 ease-in-out"
+                    :class="mobileMenuOpen ? 'opacity-0' : 'opacity-100'"
+                />
+
+                <!-- The overlaid logo has NO offsets or independent width to drift. -->
+                <span
+                    aria-hidden="true"
+                    class="pointer-events-none absolute inset-0 rounded-lg transition-opacity duration-450 ease-in-out sm:hidden"
+                    :class="
+                        mobileMenuOpen ? 'opacity-100 delay-150' : 'opacity-0'
+                    "
+                >
+                    <NuxtImg
+                        src="/logo/ResetRinseWebsiteProto.png"
+                        alt=""
+                        class="absolute inset-0 h-full w-full object-contain"
+                    />
+                </span>
+            </NuxtLink>
+        </div>
 
         <!-- NavLinks -->
         <div
-            class="xs:text-sm xs:gap-x-2 xs:px-4 flex w-full justify-evenly gap-x-0.5 pr-1 pl-0 text-xs font-semibold sm:w-fit sm:gap-x-5 sm:text-lg md:text-2xl"
+            class="xs:text-sm xs:gap-x-2 xs:px-4 hidden w-full justify-evenly gap-x-0.5 pr-1 pl-0 text-xs font-semibold sm:flex sm:w-fit sm:gap-x-5 sm:text-lg md:text-2xl"
         >
             <div
                 ref="servicesMenu"
@@ -170,21 +209,20 @@ const scrollToNearestContact = () => {
         </div>
 
         <!-- Small Quote Button -->
-        <div class="block sm:hidden">
+        <div
+            class="block transition-opacity duration-200 sm:hidden"
+            :class="
+                mobileMenuOpen ? 'pointer-events-none opacity-0' : 'opacity-100'
+            "
+        >
             <a
                 href="tel:+13605531160"
                 aria-label="Call Reset Rinse"
-                class="xs:py-3 xs:rounded-xl inline-flex gap-x-0.5 rounded-lg border-2 border-violet-900 bg-violet-400 px-1 py-2 text-violet-950 shadow-xs shadow-violet-900 transition-colors duration-300 hover:bg-transparent"
+                class="xs:rounded-xl inline-flex gap-x-0.5 rounded-lg border-2 border-violet-900 bg-violet-400 px-1 py-3 text-violet-950 shadow-xs shadow-violet-900 transition-colors duration-300 hover:bg-transparent"
             >
                 <UIcon class="size-4" name="tabler:phone-filled" />
-                <UIcon
-                    class="xs:block hidden size-4"
-                    name="tabler:arrow-bar-to-right"
-                />
-                <UIcon
-                    class="xs:block hidden size-4"
-                    name="tabler:quote-filled"
-                />
+                <UIcon class="size-4" name="tabler:arrow-bar-to-right" />
+                <UIcon class="size-4" name="tabler:quote-filled" />
             </a>
         </div>
     </nav>

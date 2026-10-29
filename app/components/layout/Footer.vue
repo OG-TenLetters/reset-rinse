@@ -29,15 +29,18 @@ const activeLocations = computed(() =>
 
 <template>
     <div
-        class="relative z-100 rounded-t-2xl border-t-2 border-t-amber-400 bg-amber-200 p-5 sm:rounded-t-3xl md:rounded-t-4xl md:p-10"
+        class="relative z-20 rounded-t-2xl border-t-2 border-t-amber-400 bg-amber-200 p-5 pt-7 sm:rounded-t-3xl md:rounded-t-4xl md:p-10"
     >
         <div
             class="xs:text-base -mt-4 mb-9 flex w-full flex-col items-center text-xs lg:hidden"
         >
-            <div
-                class="xs:scale-100 xs:py-4 scale-85 py-3 pr-1 sm:scale-125 sm:py-8"
-            >
-                <BrandStamp />
+            <div class="xs:max-w-60 w-full max-w-45 sm:max-w-70">
+                <NuxtLink to="/" class="w-full">
+                    <NuxtImg
+                        class="w-full"
+                        src="/logo/ResetRinseWebsiteProto.png"
+                    />
+                </NuxtLink>
             </div>
             <p class="w-9/10 text-center font-semibold">
                 Based in Vancouver, Washington. Window cleaning, gutter
@@ -148,7 +151,14 @@ const activeLocations = computed(() =>
             <div
                 class="-mt-4 hidden max-w-80 flex-col items-end text-sm lg:flex"
             >
-                <div class="py-4 pr-1"><BrandStamp /></div>
+                <div class="w-full max-w-55 py-1">
+                    <NuxtLink to="/" class="w-full">
+                        <NuxtImg
+                            class="w-full"
+                            src="/logo/ResetRinseWebsiteProto.png"
+                        />
+                    </NuxtLink>
+                </div>
                 <p class="text-right font-semibold">
                     Based in Vancouver, Washington. <br />
                     Window cleaning, gutter cleaning, power/soft washing,
