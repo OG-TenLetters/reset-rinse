@@ -6,6 +6,7 @@ import { ServicesData } from '~/data/services'
 const MAX_BODY_BYTES = 10_240
 const RATE_WINDOW_MS = 15 * 60 * 1000
 const MAX_REQUESTS_PER_WINDOW = 5
+const TURNSTILE_ENABLED = false
 
 // Local-development fallback only. Production uses shared Upstash Redis.
 const devRequests = new Map<string, number[]>()
@@ -122,7 +123,7 @@ export default defineEventHandler(async (event) => {
     const details = field('details', 3000)
     const propertyType = body.propertyType
     const submissionId = field('submissionId', 36)
-    const token = field('turnstileToken', 2048)
+    const token = TURNSTILE_ENABLED ? field('turnstileToken', 2048) : ''
 
     const phoneDigits = phone.replace(/\D/g, '')
     const allowedServices = new Set(
@@ -149,28 +150,34 @@ export default defineEventHandler(async (event) => {
         !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
             submissionId
         ) ||
-        token.length === 0
+        (TURNSTILE_ENABLED && token.length === 0)
     ) {
         invalidForm()
     }
 
-    if (!config.resendApiKey || !config.turnstile?.secretKey) {
-        console.error('Missing Resend or Turnstile credentials')
+    if (
+        !config.resendApiKey ||
+        (TURNSTILE_ENABLED && !config.turnstile?.secretKey)
+    ) {
+        console.error('Missing required contact service credentials')
+
         throw createError({
             statusCode: 503,
             statusMessage: 'Contact service unavailable.',
         })
     }
-
     // Turnstile tokens must be verified server-side and are single-use.
-    const verification = await verifyTurnstileToken(token)
-    if (!verification.success) {
-        throw createError({
-            statusCode: 422,
-            statusMessage: 'Security check expired or failed. Please retry.',
-        })
-    }
+    if (TURNSTILE_ENABLED) {
+        const verification = await verifyTurnstileToken(token)
 
+        if (!verification.success) {
+            throw createError({
+                statusCode: 422,
+                statusMessage:
+                    'Security check expired or failed. Please retry.',
+            })
+        }
+    }
     const services = body.services as string[]
     const message = [
         'NEW RESET RINSE QUOTE REQUEST',
