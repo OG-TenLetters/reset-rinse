@@ -120,7 +120,9 @@ async function submitForm() {
             body: {
                 ...payload,
                 submissionId: pendingSubmissionId,
-                ...(turnstileEnabled ? { turnstileToken: turnstileToken.value } : {}),
+                ...(turnstileEnabled
+                    ? { turnstileToken: turnstileToken.value }
+                    : {}),
             },
         })
         submissionSuccess.value = true
@@ -264,7 +266,7 @@ async function submitForm() {
                     />
                     <!-- Radio Options -->
                     <div
-                        class="mt-1 flex gap-x-6 text-lg"
+                        class="mt-1 flex flex-wrap gap-x-6 text-lg"
                         role="radiogroup"
                         aria-label="Property type"
                         aria-required="true"
@@ -355,8 +357,7 @@ async function submitForm() {
                         maxlength="3000"
                     />
                 </div>
-                <!-- A single widget stays inside the form on desktop, or moves
-                     directly below this card on mobile (never to document.body). -->
+
                 <Teleport
                     v-if="turnstileEnabled"
                     defer

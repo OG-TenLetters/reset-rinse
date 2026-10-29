@@ -104,3 +104,34 @@ body {
 .main-font {
     @apply font-sans;
 }
+
+@keyframes shimmer {
+    0% {
+        background-position: -400% 0;
+    }
+
+    100% {
+        background-position: 400% 0;
+    }
+}
+
+.skeleton-image {
+    animation: shimmer 6s linear infinite;
+
+    background: linear-gradient(
+        90deg,
+        #24143d 0%,
+        #482477 35%,
+        #7142a8 50%,
+        #482477 65%,
+        #24143d 100%
+    );
+
+    background-size: 400% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton-image {
+        animation: none;
+    }
+}

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SectionTitle from '../SectionTitle.vue'
+import ShimmerImage from '../ui/ShimmerImage.vue'
 </script>
 
 <template>
@@ -17,12 +18,14 @@ import SectionTitle from '../SectionTitle.vue'
                 <div
                     class="xs:float-left relative block w-3/5 overflow-hidden rounded-xl shadow-lg shadow-black/50 md:flex md:w-4/5 md:rounded-3xl"
                 >
-                    <NuxtImg
-                        width="480"
-                        height="680"
-                        class="w-full"
+                    <ShimmerImage
                         src="/Jadon.jpg"
                         alt="Picture of the Business Owner"
+                        width="480"
+                        height="680"
+                        wrapper-class="w-full"
+                        image-class="w-full"
+                        loading="lazy"
                     />
 
                     <!-- Image Title -->

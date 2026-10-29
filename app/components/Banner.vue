@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ServicesData } from '~/data/services'
 import ContactForm from './ContactForm.vue'
+import ShimmerImage from './ui/ShimmerImage.vue'
 
 const items = Object.values(ServicesData).filter((service) => service.active)
 const activeIndex = ref(0)
@@ -74,8 +75,9 @@ const scrollToNearestContact = () => {
             @select="onSelect"
         >
             <div class="relative w-full">
-                <NuxtImg
+                <ShimmerImage
                     :src="item.images.hero"
+                    :alt="`${item.name} service example`"
                     width="1920"
                     height="1080"
                     format="webp"
@@ -83,21 +85,24 @@ const scrollToNearestContact = () => {
                     :loading="index === 0 ? 'eager' : 'auto'"
                     :fetchpriority="index === 0 ? 'high' : 'auto'"
                     :preload="index === 0 ? { fetchPriority: 'high' } : false"
-                    class="aspect-video w-full mask-[linear-gradient(to_bottom,black_0%,black_calc(100%-120px),transparent_100%)] object-cover"
-                    :alt="`${item.name} service example`"
+                    wrapper-class="aspect-video w-full mask-[linear-gradient(to_bottom,black_0%,black_calc(100%-120px),transparent_100%)]"
+                    image-class="h-full w-full object-cover"
                 />
 
-                <NuxtImg
+                <ShimmerImage
+                    v-if="item.images.gallery[0]"
                     :src="item.images.gallery[0]"
+                    :alt="`${item.name} service example`"
                     width="1200"
                     height="675"
                     format="webp"
                     quality="75"
                     loading="lazy"
-                    class="-mt-8 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_96px,black_calc(100%-160px),transparent_100%)] object-cover"
-                    :alt="`${item.name} service example`"
+                    wrapper-class="-mt-8 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_96px,black_calc(100%-160px),transparent_100%)]"
+                    image-class="h-full w-full object-cover"
                 />
-                <NuxtImg
+                <ShimmerImage
+                    v-if="item.images.gallery[1]"
                     :src="item.images.gallery[1]"
                     width="1200"
                     height="675"
@@ -107,7 +112,8 @@ const scrollToNearestContact = () => {
                     class="-mt-14 aspect-video w-full mask-[linear-gradient(to_bottom,transparent_0%,black_96px,black_calc(100%-160px),transparent_100%)] object-cover"
                     :alt="`${item.name} service example`"
                 />
-                <NuxtImg
+                <ShimmerImage
+                    v-if="item.images.gallery[2]"
                     :src="item.images.gallery[2]"
                     width="1200"
                     height="675"
@@ -192,7 +198,7 @@ const scrollToNearestContact = () => {
                         class="flex w-fit items-center gap-x-2 rounded-xl border border-white/20 bg-linear-to-bl from-green-600/55 to-violet-950/95 px-4 py-1 text-xs font-semibold"
                     >
                         <UIcon class="text-green-400" name="tabler:check" />
-                        <h3>Review Thing</h3>
+                        <h3>Reviews Coming Soon!</h3>
                     </div>
 
                     <div

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ServiceData } from '~/data/services'
+import ShimmerImage from '../ui/ShimmerImage.vue'
 
 defineProps<{ service: ServiceData }>()
 
@@ -29,17 +30,21 @@ function scrollToContact() {
         class="relative isolate flex min-h-125 flex-col justify-end overflow-hidden bg-gray-950 text-white"
         :aria-label="`${service.name} introduction`"
     >
-        <NuxtImg
-            :src="service.images.hero"
-            :alt="`Sample background image for ${service.name}`"
-            width="1920"
-            height="1080"
-            format="webp"
-            quality="85"
-            preload
-            fetchpriority="high"
-            class="absolute inset-0 -z-20 h-full w-full object-cover"
-        />
+        <!-- Background Image -->
+        <div class="absolute inset-0 -z-20">
+            <ShimmerImage
+                :src="service.images.hero"
+                :alt="`Background image for ${service.name}`"
+                width="1920"
+                height="1080"
+                format="webp"
+                quality="85"
+                preload
+                fetchpriority="high"
+                wrapper-class="relative h-full w-full"
+                image-class="absolute inset-0 h-full w-full object-cover"
+            />
+        </div>
         <div
             class="absolute inset-0 -z-10 bg-linear-to-r from-gray-950/95 via-gray-950/75 to-violet-950/45"
             aria-hidden="true"

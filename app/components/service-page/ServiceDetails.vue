@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ServiceData } from '~/data/services'
 import BeforeAfterSlider from './BeforeAfterSlider.vue'
+import ShimmerImage from '../ui/ShimmerImage.vue'
 
 defineProps<{ service: ServiceData }>()
 </script>
@@ -61,16 +62,22 @@ defineProps<{ service: ServiceData }>()
             />
 
             <!-- Fallback Image -->
-            <NuxtImg
+            <!-- Fallback Image -->
+            <ShimmerImage
                 v-else
-                :src="service.images.gallery[1] ?? service.images.hero"
+                :src="
+                    service.images.gallery[1] ??
+                    service.images.gallery[0] ??
+                    service.images.hero
+                "
                 :alt="`${service.name} service photo`"
                 width="1000"
                 height="750"
                 format="webp"
                 quality="85"
                 loading="lazy"
-                class="aspect-4/3 w-full rounded-2xl object-cover shadow-xl shadow-gray-950/25"
+                wrapper-class="aspect-4/3 w-full overflow-hidden rounded-2xl shadow-xl shadow-gray-950/25"
+                image-class="absolute inset-0 h-full w-full object-cover"
             />
         </div>
     </section>

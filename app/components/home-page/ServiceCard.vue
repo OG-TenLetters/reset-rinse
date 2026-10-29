@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ServiceData } from '~/data/services'
+import ShimmerImage from '../ui/ShimmerImage.vue'
 
 defineProps<{
     service: ServiceData
@@ -14,13 +15,13 @@ defineProps<{
         <!-- Service Picture Box -->
         <div class="relative">
             <!-- Service Image -->
-            <NuxtImg
-                class="h-full w-full scale-105 mask-[linear-gradient(to_bottom,black_0%,black_calc(100%-120px),transparent_100%)] object-cover transition-transform duration-300 group-hover:scale-100"
-                width="1920"
-                a
-                height="1080"
+            <ShimmerImage
                 :src="service.images.card"
                 :alt="`${service.name} Example`"
+                width="1920"
+                height="1080"
+                wrapper-class="aspect-video w-full scale-105 mask-[linear-gradient(to_bottom,black_0%,black_calc(100%-120px),transparent_100%)] transition-transform duration-300 group-hover:scale-100"
+                image-class="absolute inset-0 h-full w-full object-cover"
             />
         </div>
         <!-- Service Picture Box - Inset Shadow -->
