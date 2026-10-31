@@ -11,6 +11,7 @@ export default defineNuxtConfig({
         '@nuxt/ui',
         '@nuxtjs/turnstile',
         '@vercel/analytics',
+        '@nuxtjs/sitemap',
     ],
     turnstile: {
         siteKey: '',
@@ -26,5 +27,13 @@ export default defineNuxtConfig({
         turnstile: { secretKey: '' },
         upstashRedisRestUrl: '',
         upstashRedisRestToken: '',
+    },
+    site: {
+        url: 'https://resetrinse.com',
+        name: 'Reset Rinse Property Care',
+    },
+
+    sitemap: {
+        sources: ['/api/__sitemap__/urls'],
     },
 })
