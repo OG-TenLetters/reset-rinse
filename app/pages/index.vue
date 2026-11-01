@@ -4,6 +4,28 @@ import ContactSection from '~/components/ContactSection.vue'
 import AboutMeSection from '~/components/home-page/AboutMeSection.vue'
 import ServiceAreaSection from '~/components/home-page/ServiceAreaSection.vue'
 import ServiceSection from '~/components/home-page/ServiceSection.vue'
+
+useSeoMeta({
+    title: 'Reset Rinse | Property Care in Clark County, WA',
+    description:
+        'Reset Rinse provides professional window cleaning, gutter cleaning, pressure washing, and property care services throughout Clark County, Washington.',
+    ogSiteName: 'Reset Rinse',
+})
+
+useHead({
+    script: [
+        {
+            type: 'application/ld+json',
+            innerHTML: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'WebSite',
+                name: 'Reset Rinse',
+                alternateName: 'Reset Rinse Property Care',
+                url: 'https://resetrinse.com/',
+            }),
+        },
+    ],
+})
 </script>
 
 <template>

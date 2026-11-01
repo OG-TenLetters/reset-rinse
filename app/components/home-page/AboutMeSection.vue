@@ -21,7 +21,7 @@ import ShimmerImage from '../ui/ShimmerImage.vue'
                     <ShimmerImage
                         src="/Jadon.jpg"
                         alt="Picture of the Business Owner"
-                        width="480"
+                        width="540"
                         height="680"
                         wrapper-class="w-full"
                         image-class="w-full"
