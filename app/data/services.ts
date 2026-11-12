@@ -145,7 +145,7 @@ export const ServicesData = {
     },
 
     washing: {
-        name: 'Pressure/Soft Wash',
+        name: 'Power/Soft Wash',
         to: '/pressure-washing',
         active: true,
         detailsHeading: 'The Right Wash for Each Surface',

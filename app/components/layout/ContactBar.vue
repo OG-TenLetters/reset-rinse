@@ -24,6 +24,7 @@ import SocialButton from '~/components/buttons/SocialButton.vue'
         </div>
         <div class="flex gap-x-1.5 md:gap-x-2">
             <SocialButton hover-color="green" social="yelp" />
+            <SocialButton hover-color="green" social="angi" />
             <SocialButton hover-color="green" social="facebook" />
             <SocialButton hover-color="green" social="instagram" />
             <SocialButton hover-color="green" social="google" />

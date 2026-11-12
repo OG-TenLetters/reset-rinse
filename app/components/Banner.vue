@@ -192,27 +192,33 @@ const scrollToNearestContact = () => {
 
                 <!-- Tags -->
                 <div
-                    class="mt-1 flex max-w-90 flex-row flex-wrap justify-center gap-x-2 gap-y-2 sm:mt-3 lg:flex-col lg:flex-nowrap"
+                    class="mt-1 flex w-full max-w-90 flex-row flex-wrap justify-center gap-x-2 gap-y-2 sm:mt-3"
                 >
                     <div
                         class="flex w-fit items-center gap-x-2 rounded-xl border border-white/20 bg-linear-to-bl from-green-600/55 to-violet-950/95 px-4 py-1 text-xs font-semibold"
                     >
                         <UIcon class="text-green-400" name="tabler:check" />
-                        <h3>Reviews Coming Soon!</h3>
+                        <h3>Window Cleaning</h3>
                     </div>
 
                     <div
                         class="flex w-fit items-center gap-x-2 rounded-xl border border-white/20 bg-linear-to-bl from-green-600/55 to-violet-950/95 px-4 py-1 text-xs font-semibold"
                     >
                         <UIcon class="text-green-400" name="tabler:check" />
-                        <h3>Locally Owned - 2026</h3>
+                        <h3>Gutter Cleaning</h3>
                     </div>
 
                     <div
                         class="flex w-fit items-center gap-x-2 rounded-xl border border-white/20 bg-linear-to-bl from-green-600/55 to-violet-950/95 px-4 py-1 text-xs font-semibold"
                     >
                         <UIcon class="text-green-400" name="tabler:check" />
-                        <h3>1 year roof cleaning guarantee</h3>
+                        <h3>Pressure Washing</h3>
+                    </div>
+                    <div
+                        class="flex w-fit items-center gap-x-2 rounded-xl border border-white/20 bg-linear-to-bl from-green-600/55 to-violet-950/95 px-4 py-1 text-xs font-semibold"
+                    >
+                        <UIcon class="text-green-400" name="tabler:check" />
+                        <h3>Moss Treatment</h3>
                     </div>
                 </div>
             </div>

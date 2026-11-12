@@ -87,44 +87,40 @@ const scrollToNearestContact = () => {
         aria-label="Primary"
         class="relative isolate flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-2 shadow-md shadow-black/50 sm:py-4 md:px-10 md:py-6"
     >
-        <div class="flex items-center gap-x-4">
-            <!-- Original Anithon-inspired expanding mobile menu. -->
-            <RRMobileMenu
-                v-model:open="mobileMenuOpen"
-                @contact="scrollToNearestContact"
+        <!-- Original Anithon-inspired expanding mobile menu. -->
+        <RRMobileMenu
+            v-model:open="mobileMenuOpen"
+            @contact="scrollToNearestContact"
+        />
+
+        <!-- Both logos use the same exact box; the mobile variant crossfades over it. -->
+        <NuxtLink
+            to="/"
+            aria-label="Reset Rinse home"
+            class="relative z-50 block w-full max-w-35 lg:max-w-40"
+            @click="mobileMenuOpen = false"
+        >
+            <!-- Original light-navbar logo. -->
+            <NuxtImg
+                src="/logo/ResetRinseWebsiteProto.png"
+                alt="Reset Rinse Property Care"
+                class="block h-auto w-full transition-opacity duration-600 ease-in-out"
+                :class="mobileMenuOpen ? 'opacity-0' : 'opacity-100'"
             />
 
-            <!-- Both logos use the same exact box; the mobile variant crossfades over it. -->
-            <NuxtLink
-                to="/"
-                aria-label="Reset Rinse home"
-                class="relative z-50 block w-full max-w-35 lg:max-w-40"
-                @click="mobileMenuOpen = false"
+            <!-- The overlaid logo has NO offsets or independent width to drift. -->
+            <span
+                aria-hidden="true"
+                class="pointer-events-none absolute inset-0 rounded-lg transition-opacity duration-450 ease-in-out sm:hidden"
+                :class="mobileMenuOpen ? 'opacity-100 delay-150' : 'opacity-0'"
             >
-                <!-- Original light-navbar logo. -->
                 <NuxtImg
                     src="/logo/ResetRinseWebsiteProto.png"
-                    alt="Reset Rinse Property Care"
-                    class="block h-auto w-full transition-opacity duration-600 ease-in-out"
-                    :class="mobileMenuOpen ? 'opacity-0' : 'opacity-100'"
+                    alt=""
+                    class="absolute inset-0 h-full w-full object-contain"
                 />
-
-                <!-- The overlaid logo has NO offsets or independent width to drift. -->
-                <span
-                    aria-hidden="true"
-                    class="pointer-events-none absolute inset-0 rounded-lg transition-opacity duration-450 ease-in-out sm:hidden"
-                    :class="
-                        mobileMenuOpen ? 'opacity-100 delay-150' : 'opacity-0'
-                    "
-                >
-                    <NuxtImg
-                        src="/logo/ResetRinseWebsiteProto.png"
-                        alt=""
-                        class="absolute inset-0 h-full w-full object-contain"
-                    />
-                </span>
-            </NuxtLink>
-        </div>
+            </span>
+        </NuxtLink>
 
         <!-- NavLinks -->
         <div

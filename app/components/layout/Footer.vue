@@ -50,21 +50,24 @@ const activeLocations = computed(() =>
                 class="flex scale-110 gap-x-0.5 py-2 sm:scale-120 sm:py-2 md:scale-140 md:gap-x-1 md:py-4"
             >
                 <SocialButton hover-color="amber" social="yelp" />
+                <SocialButton hover-color="amber" social="angi" />
                 <SocialButton hover-color="amber" social="facebook" />
                 <SocialButton hover-color="amber" social="instagram" />
                 <SocialButton hover-color="amber" social="google" />
-                <SocialButton hover-color="amber" social="apple" />
+                <!-- <SocialButton hover-color="amber" social="apple" /> -->
                 <SocialButton hover-color="amber" social="linkedIn" />
             </div>
             <h3 class="text-xs whitespace-nowrap sm:text-sm">
                 Copyright &copy; 2026 Reset Rinse, All rights reserved.
             </h3>
             <div class="flex gap-x-1 text-xs sm:text-sm">
-                <h4>Terms of Service</h4>
+                <NuxtLink to="/terms" class="hover:underline"
+                    >Terms of Service</NuxtLink
+                >
                 |
-                <h4>Privacy Policy</h4>
-                |
-                <h4>SMS Terms</h4>
+                <NuxtLink to="privacy" class="hover:underline"
+                    >Privacy Policy</NuxtLink
+                >
             </div>
         </div>
 
@@ -166,21 +169,24 @@ const activeLocations = computed(() =>
                 </p>
                 <div class="flex scale-120 gap-x-0.5 py-2 pr-3">
                     <SocialButton hover-color="amber" social="yelp" />
+                    <SocialButton hover-color="amber" social="angi" />
                     <SocialButton hover-color="amber" social="facebook" />
                     <SocialButton hover-color="amber" social="instagram" />
                     <SocialButton hover-color="amber" social="google" />
-                    <SocialButton hover-color="amber" social="apple" />
+                    <!-- <SocialButton hover-color="amber" social="apple" /> -->
                     <SocialButton hover-color="amber" social="linkedIn" />
                 </div>
                 <h3 class="whitespace-nowrap">
                     Copyright &copy; 2026 Reset Rinse, All rights reserved.
                 </h3>
                 <div class="flex gap-x-1">
-                    <h4>Terms of Service</h4>
+                    <NuxtLink to="/terms" class="hover:underline"
+                        >Terms of Service</NuxtLink
+                    >
                     |
-                    <h4>Privacy Policy</h4>
-                    |
-                    <h4>SMS Terms</h4>
+                    <NuxtLink to="privacy" class="hover:underline"
+                        >Privacy Policy</NuxtLink
+                    >
                 </div>
             </div>
         </div>

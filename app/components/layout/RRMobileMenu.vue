@@ -207,6 +207,22 @@ onClickOutside(menuRoot, () => {
                             Contact Me
                         </button>
                     </li>
+                    <li class="border-b border-white/20">
+                        <NuxtLink
+                            to="/terms"
+                            class="block py-2 pr-4 pl-5 transition-colors duration-150 hover:bg-violet-700/30 hover:text-amber-300 focus-visible:bg-violet-700/30 focus-visible:text-amber-300"
+                            @click="closeMenu"
+                            >Terms of Service</NuxtLink
+                        >
+                    </li>
+                    <li class="border-b border-white/20">
+                        <NuxtLink
+                            to="/privacy"
+                            class="block py-2 pr-4 pl-5 transition-colors duration-150 hover:bg-violet-700/30 hover:text-amber-300 focus-visible:bg-violet-700/30 focus-visible:text-amber-300"
+                            @click="closeMenu"
+                            >Privacy Policy</NuxtLink
+                        >
+                    </li>
                 </ul>
             </div>
         </div>

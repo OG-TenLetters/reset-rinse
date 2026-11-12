@@ -38,11 +38,11 @@ import ShimmerImage from '../ui/ShimmerImage.vue'
                             Owner
                         </h4>
 
-                        <h1
+                        <h3
                             class="xs:max-w-full xs:text-xl w-full max-w-60 text-base font-semibold tracking-wide capitalize sm:text-2xl lg:text-3xl"
                         >
                             Jadon Smith
-                        </h1>
+                        </h3>
                     </div>
                 </div>
 
@@ -50,11 +50,11 @@ import ShimmerImage from '../ui/ShimmerImage.vue'
                 <div
                     class="flex w-full flex-col items-center gap-y-8 text-center md:items-start md:text-left"
                 >
-                    <h2
+                    <h3
                         class="hidden text-4xl font-semibold text-violet-950 md:block"
                     >
                         Hi! I'm Jadon.
-                    </h2>
+                    </h3>
                     <p
                         class="mt-5 w-full text-lg sm:text-xl md:mt-0 md:text-2xl"
                     >
@@ -66,7 +66,7 @@ import ShimmerImage from '../ui/ShimmerImage.vue'
                         self-directed individual that, despite life's hardships,
                         have found a way to combine my skills of programming,
                         communication, hands-on attention to detail, and
-                        continous improvement. I started Reset Rinse with a
+                        continuous improvement. I started Reset Rinse with a
                         simple goal: to provide homeowners with reliable,
                         quality property care without the hassle. I believe
                         maintaining your home shouldn't be stressful, and

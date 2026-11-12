@@ -2,8 +2,13 @@
 const socialLibary = {
     yelp: {
         name: 'yelp',
-        link: 'https://www.yelp.com/',
+        link: 'https://www.yelp.com/biz/reset-rinse-vancouver',
         icon: 'akar-icons:yelp-fill',
+    },
+    angi: {
+        name: 'angi',
+        link: 'https://www.homeadvisor.com/rated.ResetRinsePropertyCare.165689796.html',
+        icon: 'rr:angi',
     },
     facebook: {
         name: 'facebook',

@@ -1,5 +1,9 @@
 import tailwindcss from '@tailwindcss/vite'
 
+import { createResolver } from 'nuxt/kit'
+
+const { resolve } = createResolver(import.meta.url)
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     nitro: {
@@ -13,6 +17,14 @@ export default defineNuxtConfig({
         '@vercel/analytics',
         '@nuxtjs/sitemap',
     ],
+    icon: {
+        customCollections: [
+            {
+                prefix: 'rr',
+                dir: resolve('./app/assets/icons'),
+            },
+        ],
+    },
     turnstile: {
         siteKey: '',
     },
@@ -27,6 +39,8 @@ export default defineNuxtConfig({
         turnstile: { secretKey: '' },
         upstashRedisRestUrl: '',
         upstashRedisRestToken: '',
+        squareAccessToken: '',
+        squareEnvironment: 'sandbox',
     },
     site: {
         url: 'https://resetrinse.com',
