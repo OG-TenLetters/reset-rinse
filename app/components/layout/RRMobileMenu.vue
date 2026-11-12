@@ -141,8 +141,12 @@ onClickOutside(menuRoot, () => {
                             to="/"
                             class="block py-2 pr-4 pl-5 transition-colors duration-150 hover:bg-violet-700/30 hover:text-amber-300 focus-visible:bg-violet-700/30 focus-visible:text-amber-300"
                             @click="closeMenu"
-                            >Home</NuxtLink
                         >
+                            <div class="flex items-center gap-x-2">
+                                <UIcon class="text-xl" name="tabler:home" />
+                                Home
+                            </div>
+                        </NuxtLink>
                     </li>
 
                     <!-- Preserves the original expanding nested-dropdown feel. -->
@@ -161,7 +165,11 @@ onClickOutside(menuRoot, () => {
                             class="flex w-full items-center justify-between border-b border-white/20 py-2 pr-3 pl-5 text-left transition-colors duration-150"
                             @click="servicesOpen = !servicesOpen"
                         >
-                            Services
+                            <div class="flex items-center gap-x-2">
+                                <UIcon class="text-xl" name="tabler:tools" />
+                                Services
+                            </div>
+
                             <UIcon
                                 name="tabler:chevron-down"
                                 aria-hidden="true"
@@ -178,7 +186,7 @@ onClickOutside(menuRoot, () => {
                             <li
                                 v-for="service in activeServices"
                                 :key="service.to"
-                                class="border-b border-gray-500/50 last:border-b-0"
+                                class="border-b border-gray-500/50 pl-9 last:border-b-0"
                             >
                                 <NuxtLink
                                     :to="service.to"
@@ -195,22 +203,32 @@ onClickOutside(menuRoot, () => {
                             to="/#about-me"
                             class="block py-2 pr-4 pl-5 transition-colors duration-150 hover:bg-violet-700/30 hover:text-amber-300 focus-visible:bg-violet-700/30 focus-visible:text-amber-300"
                             @click="closeMenu"
-                            >About Me</NuxtLink
                         >
+                            <div class="flex items-center gap-x-2">
+                                <UIcon class="text-xl" name="tabler:book" />
+                                About Me
+                            </div>
+                        </NuxtLink>
                     </li>
-                    <li class="border-b border-white/20">
+                    <li class="border-b border-white/70">
                         <button
                             type="button"
                             class="block w-full py-2 pr-4 pl-5 text-left transition-colors duration-150 hover:bg-violet-700/30 hover:text-amber-300 focus-visible:bg-violet-700/30 focus-visible:text-amber-300"
                             @click="goToContact"
                         >
-                            Contact Me
+                            <div class="flex items-center gap-x-2">
+                                <UIcon
+                                    class="text-xl"
+                                    name="tabler:phone-call"
+                                />
+                                Contact Me
+                            </div>
                         </button>
                     </li>
                     <li class="border-b border-white/20">
                         <NuxtLink
                             to="/terms"
-                            class="block py-2 pr-4 pl-5 transition-colors duration-150 hover:bg-violet-700/30 hover:text-amber-300 focus-visible:bg-violet-700/30 focus-visible:text-amber-300"
+                            class="block py-2 pr-4 pl-5 text-gray-400 transition-colors duration-150 hover:bg-violet-700/30 hover:text-amber-300 focus-visible:bg-violet-700/30 focus-visible:text-amber-300"
                             @click="closeMenu"
                             >Terms of Service</NuxtLink
                         >
@@ -218,7 +236,7 @@ onClickOutside(menuRoot, () => {
                     <li class="border-b border-white/20">
                         <NuxtLink
                             to="/privacy"
-                            class="block py-2 pr-4 pl-5 transition-colors duration-150 hover:bg-violet-700/30 hover:text-amber-300 focus-visible:bg-violet-700/30 focus-visible:text-amber-300"
+                            class="block py-2 pr-4 pl-5 text-gray-400 transition-colors duration-150 hover:bg-violet-700/30 hover:text-amber-300 focus-visible:bg-violet-700/30 focus-visible:text-amber-300"
                             @click="closeMenu"
                             >Privacy Policy</NuxtLink
                         >
